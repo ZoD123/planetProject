@@ -1,8 +1,11 @@
 package com.eisenglatz;
 
-public class Organism {
+import java.util.UUID;
+
+public class Organism  implements ICyclable{
     private Metabolism metabolism;
     private Planet planet;
+    private UUID guid;
 
     /**
      * public constructor
@@ -10,8 +13,11 @@ public class Organism {
      *               and also defines which resources are available when metabolism get initialized
      */
     public Organism(Planet planet) {
+
         this.planet = planet;
+        this.guid = UUID.randomUUID();
         metabolism = new Metabolism(this.planet); // this, um organismus object zu übergeben
+        this.planet.lifeReceived(this);
     }
 
     /**
@@ -29,4 +35,12 @@ public class Organism {
         System.out.println("CarbonDioxideAmount: " + toLocalCarbonDioxideField.getStock());
     }
 
+    @Override
+    public UUID GetUUID() {
+        return guid;
+    }
+
+    @Override
+    public void dayDream() {
+    }
 }

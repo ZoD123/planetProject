@@ -2,28 +2,41 @@ package com.eisenglatz;
 
 import java.sql.PreparedStatement;
 import java.time.format.ResolverStyle;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class Main {
 
     public static void main(String[] args) {
-        PlanetSeed deus = new PlanetSeed();
-        deus.oxygen = 5000;
-        deus.carbon = 4000;
-        deus.carbonDioxide = 10;
 
+        PlanetSeed deus = createSeed();
         Planet earth = new Planet(deus);
 
-        Resource toLocalCarbonField = earth.getResource("carbon");
-        Resource toLocalOxygenField = earth.getResource("oxygen");
-        Resource toLocalCarbonDioxideField = earth.getResource("carbonDioxide");
-
-        System.out.println("CarbonAmount: " + toLocalCarbonField.getStock());
-        System.out.println("OxygenAmount: " + toLocalOxygenField.getStock());
-        System.out.println("CarbonDioxideAmount: " + toLocalCarbonDioxideField.getStock());
 
         Organism simpleOrganism = new Organism(earth);
         simpleOrganism.eat();
 
-	// write your code here
+        // write your code here
     }
+
+    /**
+     * creates a planet seed
+     *
+     * @return the created seed
+     */
+    private static PlanetSeed createSeed() {
+        PlanetSeed seed = new PlanetSeed();
+        seed.oxygen = 5000;
+        seed.carbon = 4000;
+        seed.carbonDioxide = 10;
+        return seed;
+    }
+
+
+    private static void infest(Planet planet)
+    {
+
+    }
+
 }
