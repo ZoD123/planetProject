@@ -6,15 +6,15 @@ public class Metabolism {
     private Resource carbonDioxideField;
 
     public Metabolism(Planet planetField) {
-        Resource carbonField = planetField.getResource("carbon");
-        Resource oxygenField = planetField.getResource("oxygen");
-        Resource carbonDioxideField = planetField.getResource("carbonDioxide");
+         this.carbonField = planetField.getResource("carbon");
+         this.oxygenField = planetField.getResource("oxygen");
+         this.carbonDioxideField = planetField.getResource("carbonDioxide");
     }
 
     /**
      * transforms 1 carbon + 2 oxygen -> 2 carbonDioxide
      */
-    public void transform() {
+    public void transform() throws RessourceEmptyExeption {
         carbonField.consume(1);
         oxygenField.consume(2);
         carbonDioxideField.produce(1);

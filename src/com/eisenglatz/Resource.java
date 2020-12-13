@@ -2,7 +2,7 @@ package com.eisenglatz;
 
 public abstract class Resource {
 
-    private int value;
+    private Integer value;
 
     /**
      * constructor for creating a ressource field
@@ -16,9 +16,9 @@ public abstract class Resource {
      * get the Stock value of the ressource
      * @return the stock
      */
-    public int getStock() {
+    public String getStock() {
 
-        return value;
+        return value.toString();
     }
 
     /**
@@ -26,9 +26,9 @@ public abstract class Resource {
      * @param amount amount of resource which will be consumed
      * @return residual amount
      */
-    public int consume(int amount) {
+    public int consume(int amount) throws RessourceEmptyExeption {
         if (this.value < amount) {
-         //   throw new Exception();
+            throw new RessourceEmptyExeption();
         }
 
         if (this.value >= amount){

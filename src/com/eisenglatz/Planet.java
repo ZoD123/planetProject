@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public class Planet {
 
-
+    private String planetName;
     private Carbon carbonField;
     private Oxygen oxygenField;
     private CarbonDioxide carbonDioxideField;
@@ -19,7 +19,8 @@ public class Planet {
      * public constructor
      * @param seed determine the seed which is used to create initial values
      */
-    public Planet(PlanetSeed seed) {
+    public Planet(String PlanetName, PlanetSeed seed) {
+        this.planetName = PlanetName;
         carbonField = new Carbon(seed.carbon);
         oxygenField = new Oxygen(seed.oxygen);
         carbonDioxideField = new CarbonDioxide(seed.carbonDioxide);
@@ -46,7 +47,6 @@ public class Planet {
         }
 
         return null;
-
     }
 
     /**
@@ -65,4 +65,32 @@ public class Planet {
         wildlive.remove(object.GetUUID());
     }
 
+    /**
+     * World experience one cycle
+     * @throws DeathWorldException world now is dead :-(
+     */
+    public void cycling() throws DeathWorldException {
+        String output;
+
+        for ( ICyclable element: wildlive.values() )  {
+            element.dayDream();
+        }
+        output = "C: " + carbonField.getStock() + " | ";
+        output += "O: " + oxygenField.getStock() + " | ";
+        output += "CO2: " + carbonDioxideField.getStock() + " | ";
+        System.out.println(output);
+
+        if(wildlive.size() < 1) {
+            throw new DeathWorldException(this);
+        }
+
+    }
+
+    /**
+     * returns the name of the planet
+     * @return name of the planet
+     */
+    public String getPlanetName() {
+        return planetName;
+    }
 }

@@ -23,16 +23,8 @@ public class Organism  implements ICyclable{
     /**
      * organisms eats, which activates metabolism and printing of new resource amounts
      */
-    public void eat() {
+    public void eat() throws RessourceEmptyExeption {
         metabolism.transform();
-
-        Resource toLocalCarbonField = planet.getResource("carbon");
-        Resource toLocalOxygenField = planet.getResource("oxygen");
-        Resource toLocalCarbonDioxideField = planet.getResource("carbonDioxide");
-
-        System.out.println("CarbonAmount: " + toLocalCarbonField.getStock());
-        System.out.println("OxygenAmount: " + toLocalOxygenField.getStock());
-        System.out.println("CarbonDioxideAmount: " + toLocalCarbonDioxideField.getStock());
     }
 
     @Override
@@ -42,5 +34,11 @@ public class Organism  implements ICyclable{
 
     @Override
     public void dayDream() {
+       try {
+           eat();
+
+       } catch (RessourceEmptyExeption e) {
+            planet.lifeKilled(this);
+        }
     }
 }
