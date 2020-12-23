@@ -93,4 +93,17 @@ public class Planet {
     public String getPlanetName() {
         return planetName;
     }
+
+    /**
+     * returns the number of current living organisms.
+     * @return number of living organisms.
+     */
+    public Integer GetNumberOfLivingOrganism() {
+        if(wildlive == null)
+        {
+            throw new NullPointerException();
+        }
+
+        return wildlive.size();
+    }
 }
