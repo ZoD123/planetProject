@@ -42,11 +42,20 @@ public class Main {
         return seed;
     }
 
+    /**
+     * infests the given planet with life
+     * @param planet
+     */
     private static void infest(Planet planet)
     {
         Organism simpleOrganism = new Organism(planet);
     }
 
+    /**
+     * all planet experience one cycle
+     * @param solarSystem
+     * @throws DeathWorldException planet is dead
+     */
     private static void cycling(HashMap<String, Planet> solarSystem) throws DeathWorldException {
         for (Planet planet : solarSystem.values()) {
             planet.cycling();
