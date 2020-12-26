@@ -16,9 +16,9 @@ public abstract class Resource {
      * get the Stock value of the ressource
      * @return the stock
      */
-    public String getStock() {
+    public Integer getStock() {
 
-        return value.toString();
+        return value;
     }
 
     /**
