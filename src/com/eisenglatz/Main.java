@@ -48,7 +48,7 @@ public class Main {
      */
     private static void infest(Planet planet)
     {
-        Organism simpleOrganism = new Organism(planet);
+        //TODO altcode nicht mehr funktionsfähig nachdem Organism Abstract ist.
     }
 
     /**
