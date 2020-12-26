@@ -8,9 +8,9 @@ import java.util.UUID;
 public abstract class Organism  implements ICyclable{
     private Planet planet;
     private UUID guid;
-    private HashMap<Class, Integer> requiredResource;
-    private HashMap<Class, Resource> availableResource;
-    private Integer starvationFactor; // > 1000 life is killed
+    protected HashMap<Class, Integer> requiredResource;
+    protected HashMap<Class, Resource> availableResource;
+    protected Integer starvationFactor; // > 1000 life is killed
 
     /**
      * public constructor
@@ -22,6 +22,9 @@ public abstract class Organism  implements ICyclable{
         this.planet = planet;
         this.guid = UUID.randomUUID();
         this.planet.lifeReceived(this);
+        this.requiredResource = new HashMap<Class, Integer>();
+        this.availableResource = new HashMap<Class,Resource>();
+        this.starvationFactor = 0;
     }
 
     /**
@@ -120,9 +123,7 @@ public abstract class Organism  implements ICyclable{
      * defines the metabolism transformation which runs over the available resources
      * @throws RessourceEmptyExeption
      */
-    private void metabolismTransformation () throws RessourceEmptyExeption{
-        // TO BE OVERWRITTEN
-    };
+    protected abstract void metabolismTransformation () throws RessourceEmptyExeption;
 
 
 }

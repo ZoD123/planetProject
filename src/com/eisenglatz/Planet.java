@@ -34,7 +34,13 @@ public class Planet {
      */
     public Resource getResource(Class requestedResource){
 
-        //TODO noch offen
+        if(requestedResource == Carbon.class){
+            return carbonField;
+        }
+
+        if (requestedResource == Oxygen.class){
+            return oxygenField;
+        }
 
         return null;
     }

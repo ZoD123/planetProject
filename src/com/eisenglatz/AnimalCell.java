@@ -1,6 +1,7 @@
 package com.eisenglatz;
 
 public class AnimalCell extends Organism{
+
     /**
      * public constructor
      *
@@ -9,5 +10,12 @@ public class AnimalCell extends Organism{
      */
     public AnimalCell(Planet planet) {
         super(planet);
+        super.requiredResource.put(Oxygen.class,2);
+        super.requiredResource.put(Carbon.class,1);
+    }
+
+    @Override
+    protected void metabolismTransformation() throws RessourceEmptyExeption {
+
     }
 }
