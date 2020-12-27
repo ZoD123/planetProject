@@ -3,12 +3,13 @@ package com.eisenglatz;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class Planet {
+public class Planet implements IHasResource {
 
     private String planetName;
     private Carbon carbonField;
     private Oxygen oxygenField;
     private CarbonDioxide carbonDioxideField;
+    private ResourceHandler resourceHandler;
 
     /**
      *  Represents the information for all living organisms on the planet
@@ -25,6 +26,7 @@ public class Planet {
         oxygenField = new Oxygen(seed.oxygen);
         carbonDioxideField = new CarbonDioxide(seed.carbonDioxide);
         wildlive = new HashMap<UUID, ICyclable>();
+        resourceHandler = new ResourceHandler();
     }
 
     /**
@@ -32,21 +34,15 @@ public class Planet {
      * @param resourceOfInterest the ressource type the requester want to have
      * @return the requested ressource
      */
-    public Resource getResource(Class requestedResource){
+    @Override
+    public Resource getResource(Class type, Integer minAmount){
+        Resource resource = resourceHandler.getResource(type, minAmount);
+        return resource;
+    }
 
-        if(requestedResource == Carbon.class){
-            return carbonField;
-        }
-
-        if (requestedResource == Oxygen.class){
-            return oxygenField;
-        }
-
-        if(requestedResource == CarbonDioxide.class) {
-            return carbonDioxideField;
-        }
-
-        return null;
+    @Override
+    public void addResource(Resource resourceToAdd) {
+        resourceHandler.addResource(resourceToAdd);
     }
 
     /**
