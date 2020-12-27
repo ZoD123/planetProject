@@ -42,6 +42,10 @@ public class Planet {
             return oxygenField;
         }
 
+        if(requestedResource == CarbonDioxide.class) {
+            return carbonDioxideField;
+        }
+
         return null;
     }
 
