@@ -48,7 +48,7 @@ public class Main {
      */
     private static void infest(Planet planet)
     {
-        Organism simpleOrganism = new Organism(planet);
+        Organism simpleOrganism = new AnimalCell(planet);
     }
 
     /**

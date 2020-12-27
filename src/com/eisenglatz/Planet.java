@@ -32,17 +32,17 @@ public class Planet {
      * @param resourceOfInterest the ressource type the requester want to have
      * @return the requested ressource
      */
-    public Resource getResource(String resource){
+    public Resource getResource(Class requestedResource){
 
-        if (resource == "carbon") {
+        if(requestedResource == Carbon.class){
             return carbonField;
         }
 
-        if (resource == "oxygen") {
+        if (requestedResource == Oxygen.class){
             return oxygenField;
         }
 
-        if (resource == "carbonDioxide") {
+        if(requestedResource == CarbonDioxide.class) {
             return carbonDioxideField;
         }
 

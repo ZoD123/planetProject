@@ -1,11 +1,10 @@
 package com.eisenglatz;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PlanetTest {
-    private final int ressourceStartAmount = 1000;
+    private final int resourceStartAmount = 1000;
     private Planet TestPlanet;
     private PlanetSeed TestSeed;
 
@@ -14,8 +13,8 @@ public class PlanetTest {
      */
    public void initPlanet() {
         TestSeed = new PlanetSeed();
-        TestSeed.carbon = ressourceStartAmount;
-        TestSeed.oxygen = ressourceStartAmount;
+        TestSeed.carbon = resourceStartAmount;
+        TestSeed.oxygen = resourceStartAmount;
 
         TestPlanet = new Planet("TestPlanet",TestSeed);
     }
@@ -31,7 +30,7 @@ public class PlanetTest {
     void lifeReceivedTest() {
         initPlanet();
         Integer originWildLifeCount = TestPlanet.GetNumberOfLivingOrganism();
-        TestPlanet.lifeReceived(new Organism(TestPlanet));
+        TestPlanet.lifeReceived(new AnimalCell(TestPlanet));
         Integer newWildLifeCount = TestPlanet.GetNumberOfLivingOrganism();
         assertEquals(originWildLifeCount + 1, newWildLifeCount, "fail - wrong count");
     }
@@ -39,7 +38,7 @@ public class PlanetTest {
     @Test
     void lifeKilledTest() {
         initPlanet();
-        Organism testOrganism = new Organism(TestPlanet);
+        Organism testOrganism = new AnimalCell(TestPlanet);
         TestPlanet.lifeReceived(testOrganism);
 
         Integer originWildLifeCount = TestPlanet.GetNumberOfLivingOrganism();
