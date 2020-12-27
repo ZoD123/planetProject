@@ -1,22 +1,25 @@
 package com.eisenglatz;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PlanetTest {
     private final int resourceStartAmount = 1000;
     private Planet TestPlanet;
-    private PlanetSeed TestSeed;
+
 
     /**
      * init test Environment
      */
    public void initPlanet() {
-        TestSeed = new PlanetSeed();
-        TestSeed.carbon = resourceStartAmount;
-        TestSeed.oxygen = resourceStartAmount;
+        ArrayList<Resource> seed = new ArrayList<Resource>();
+        seed.add(new Oxygen(resourceStartAmount));
+        seed.add(new Carbon(resourceStartAmount));
 
-        TestPlanet = new Planet("TestPlanet",TestSeed);
+        TestPlanet = new Planet("TestPlanet",seed);
     }
 
     @Test

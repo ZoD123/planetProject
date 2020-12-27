@@ -2,6 +2,7 @@ package com.eisenglatz;
 
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Map;
 
 
 public class ResourceHandler implements IHasResource {
@@ -73,6 +74,24 @@ public class ResourceHandler implements IHasResource {
         }
         Integer resourceListSize = resourceList.size();
         return resourceListSize;
+    }
+
+    public String ResourceStatusUpdate(){
+        String newLine = System.lineSeparator();
+        String output = "Resource Status:" + newLine;
+
+        for (Map.Entry<Class,ArrayList<Resource>> mapElement : resourceTypeMap.entrySet()
+             ) {
+            output = output + mapElement.getKey().toString() + ": ";
+
+            for (Resource resourceElement: mapElement.getValue()
+                 ) {
+                output = " - " + output + resourceElement.getStock();
+            }
+            output += newLine;
+        }
+        return output;
+
     }
 
 }

@@ -1,14 +1,12 @@
 package com.eisenglatz;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
 public class Planet implements IHasResource {
 
     private String planetName;
-    private Carbon carbonField;
-    private Oxygen oxygenField;
-    private CarbonDioxide carbonDioxideField;
     private ResourceHandler resourceHandler;
 
     /**
@@ -20,13 +18,14 @@ public class Planet implements IHasResource {
      * public constructor
      * @param seed determine the seed which is used to create initial values
      */
-    public Planet(String PlanetName, PlanetSeed seed) {
+    public Planet(String PlanetName, ArrayList<Resource> Seed) {
         this.planetName = PlanetName;
-        carbonField = new Carbon(seed.carbon);
-        oxygenField = new Oxygen(seed.oxygen);
-        carbonDioxideField = new CarbonDioxide(seed.carbonDioxide);
         wildlive = new HashMap<UUID, ICyclable>();
         resourceHandler = new ResourceHandler();
+
+        for (Resource resource: Seed) {
+            resourceHandler.addResource(resource);
+        }
     }
 
     /**
@@ -71,10 +70,6 @@ public class Planet implements IHasResource {
         for ( ICyclable element: wildlive.values() )  {
             element.dayDream();
         }
-        output = "C: " + carbonField.getStock() + " | ";
-        output += "O: " + oxygenField.getStock() + " | ";
-        output += "CO2: " + carbonDioxideField.getStock() + " | ";
-        System.out.println(output);
 
         if(wildlive.size() < 1) {
             throw new DeathWorldException(this);
@@ -101,5 +96,9 @@ public class Planet implements IHasResource {
         }
 
         return wildlive.size();
+    }
+
+    public String ResourceStatusUpdate(){
+        return resourceHandler.ResourceStatusUpdate();
     }
 }

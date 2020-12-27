@@ -2,6 +2,7 @@ package com.eisenglatz;
 
 import java.sql.PreparedStatement;
 import java.time.format.ResolverStyle;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -9,11 +10,12 @@ import java.util.UUID;
 public class Main {
 
     public static void main(String[] args) {
+        ArrayList<Resource> seed = new ArrayList<Resource>();
+        seed.add(new Oxygen(4000));
+        seed.add(new Carbon(8000));
         Integer cycleCount = 0;
-
-        PlanetSeed deus = createSeed();
         HashMap<String, Planet> Sol = new HashMap<String, Planet>();
-        Planet newPlanet = new Planet("Earth", deus);
+        Planet newPlanet = new Planet("Earth", seed);
         Sol.put(newPlanet.getPlanetName(), newPlanet);
 
         infest(newPlanet);
@@ -27,20 +29,9 @@ public class Main {
            }
         }
         System.out.println("World is starved after " + cycleCount + " cycles");
+        System.out.println(newPlanet.ResourceStatusUpdate());
     }
 
-    /**
-     * creates a planet seed
-     *
-     * @return the created seed
-     */
-    private static PlanetSeed createSeed() {
-        PlanetSeed seed = new PlanetSeed();
-        seed.oxygen = 5000;
-        seed.carbon = 4000;
-        seed.carbonDioxide = 10;
-        return seed;
-    }
 
     /**
      * infests the given planet with life

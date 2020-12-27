@@ -114,10 +114,13 @@ public abstract class Organism  implements ICyclable{
      */
     private void tryGetNewResources(ArrayList<Class> requestesResources) {
         Resource requestedResource;
+        Integer requestedAmount;
 
         for (Class type : requestesResources) {
             availableResource.remove(type);
-            requestedResource = planet.getResource(type);
+
+            requestedAmount = requiredResource.get(type);
+            requestedResource = planet.getResource(type,requestedAmount);
 
             if (requestedResource == null) {
                 continue;
@@ -161,11 +164,14 @@ public abstract class Organism  implements ICyclable{
      * initialize resources which will be produced
      */
     private void initializeResultResources() {
+        Class carbonDioxideClass;
+        Resource carbonDioxideObject;
+
+
         for (Map.Entry<Class,Integer> element: producedResource.entrySet()
         ) {
 
-            Class carbonDioxideClass = element.getKey();
-            Resource carbonDioxideObject;
+            carbonDioxideClass  = element.getKey();
 
             // check if resource always available, than use it
             if (availableResource.containsKey(carbonDioxideClass) == true) {
@@ -173,7 +179,7 @@ public abstract class Organism  implements ICyclable{
             }
 
             // if not available, try get resource from planet
-            carbonDioxideObject = planet.getResource(carbonDioxideClass);
+            carbonDioxideObject = planet.getResource(carbonDioxideClass, 0);
             if (carbonDioxideObject instanceof Resource == true) {
                 availableResource.put(carbonDioxideClass, carbonDioxideObject);
                 continue;
@@ -182,6 +188,7 @@ public abstract class Organism  implements ICyclable{
             //if reached this new resource must be created
             carbonDioxideObject = new CarbonDioxide(0);
             availableResource.put(carbonDioxideClass, carbonDioxideObject);
+            planet.addResource(carbonDioxideObject);
             continue;
         }
     }
