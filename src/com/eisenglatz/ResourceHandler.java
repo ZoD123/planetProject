@@ -8,7 +8,7 @@ public class ResourceHandler implements IHasResource {
     private HashMap<Class,ArrayList<Resource>> resourceTypeMap;
 
     public ResourceHandler() {
-
+        resourceTypeMap = new HashMap<Class,ArrayList<Resource>>();
     }
 
     @Override
@@ -40,6 +40,9 @@ public class ResourceHandler implements IHasResource {
 
     }
 
+    /**
+     * returns requested resource with at least the requested amount from resource managed structure
+     */
     @Override
     public Resource getResource(Class type, Integer minAmount){
         // try to iterate over ArrayList and return first Resource element whose Resource.value >= min Amount
@@ -61,6 +64,15 @@ public class ResourceHandler implements IHasResource {
             break;
         }
         return resultResource;
+    }
+
+    public Integer getFieldSize(Class resourceClass) {
+        ArrayList resourceList = resourceTypeMap.get(resourceClass);
+        if(resourceList == null){
+            return 0;
+        }
+        Integer resourceListSize = resourceList.size();
+        return resourceListSize;
     }
 
 }
