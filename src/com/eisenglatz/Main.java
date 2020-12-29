@@ -33,7 +33,7 @@ public class Main {
            }
         }
         System.out.println("World is starved after " + cycleCount + " cycles");
-        System.out.println(newPlanet.ResourceStatusUpdate());
+        System.out.println(newPlanet.resourceStatusUpdate());
     }
 
 

@@ -32,7 +32,7 @@ public abstract class Organism  implements ICyclable{
     /**
      * organisms eats, which activates metabolism and printing of new resource amounts
      */
-    public void eat() throws RessourceEmptyExeption {
+    public void eat() throws ResourceEmptyExeption {
         ArrayList<Class> missingResources = detectMissingResources();
 
         if (starvationFactor > 1000) {
@@ -77,7 +77,7 @@ public abstract class Organism  implements ICyclable{
        try {
            eat();
 
-       } catch (RessourceEmptyExeption e) {
+       } catch (ResourceEmptyExeption e) {
             planet.lifeKilled(this);
         }
     }
@@ -132,9 +132,9 @@ public abstract class Organism  implements ICyclable{
 
     /**
      * defines the metabolism transformation which runs over the available resources
-     * @throws RessourceEmptyExeption
+     * @throws ResourceEmptyExeption
      */
-    private void metabolismTransformation () throws RessourceEmptyExeption {
+    private void metabolismTransformation () throws ResourceEmptyExeption {
         Resource resource;
         Integer amount;
         Class resourceClass;

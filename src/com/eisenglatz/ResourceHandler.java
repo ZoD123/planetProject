@@ -83,7 +83,7 @@ public class ResourceHandler implements IHasResource {
      * returns an information as string over the overall resoruce state of the handler
      * @return the status as string
      */
-    public String ResourceStatusUpdate(){
+    public String resourceStatusUpdate(){
         String newLine = System.lineSeparator();
         String output = "Resource Status:" + newLine;
 

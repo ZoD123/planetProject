@@ -26,9 +26,9 @@ public abstract class Resource {
      * @param amount amount of resource which will be consumed
      * @return residual amount
      */
-    public int consume(int amount) throws RessourceEmptyExeption {
+    public int consume(int amount) throws ResourceEmptyExeption {
         if (this.value < amount) {
-            throw new RessourceEmptyExeption();
+            throw new ResourceEmptyExeption();
         }
 
         if (this.value >= amount){
