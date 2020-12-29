@@ -39,6 +39,10 @@ public class Planet implements IHasResource {
         return resource;
     }
 
+    /**
+     * adds a resource to Planet
+     * @param resourceToAdd
+     */
     @Override
     public void addResource(Resource resourceToAdd) {
         resourceHandler.addResource(resourceToAdd);

@@ -67,6 +67,7 @@ public class ResourceHandler implements IHasResource {
         return resultResource;
     }
 
+    //TODO Ina: Kommentieren!
     public Integer getFieldSize(Class resourceClass) {
         ArrayList resourceList = resourceTypeMap.get(resourceClass);
         if(resourceList == null){
@@ -76,6 +77,10 @@ public class ResourceHandler implements IHasResource {
         return resourceListSize;
     }
 
+    /**
+     * returns an information as string over the overall resoruce state of the handler
+     * @return the status as string
+     */
     public String ResourceStatusUpdate(){
         String newLine = System.lineSeparator();
         String output = "Resource Status:" + newLine;

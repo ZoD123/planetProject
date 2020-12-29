@@ -9,6 +9,10 @@ import java.util.UUID;
 
 public class Main {
 
+    /**
+     * Main method
+     * @param args
+     */
     public static void main(String[] args) {
         ArrayList<Resource> seed = new ArrayList<Resource>();
         seed.add(new Oxygen(4000));

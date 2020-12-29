@@ -38,6 +38,7 @@ public abstract class Resource {
 
         return 0;
     }
+
     /**
      * produces the amount of resource
      * @param amount amount of resource which will be produced
