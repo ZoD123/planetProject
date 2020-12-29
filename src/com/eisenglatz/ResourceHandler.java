@@ -67,7 +67,9 @@ public class ResourceHandler implements IHasResource {
         return resultResource;
     }
 
-    //TODO Ina: Kommentieren!
+    /**
+     * returns amount/ size of fields of a requested resource type
+     */
     public Integer getFieldSize(Class resourceClass) {
         ArrayList resourceList = resourceTypeMap.get(resourceClass);
         if(resourceList == null){
