@@ -102,6 +102,10 @@ public class Planet implements IHasResource {
         return wildlive.size();
     }
 
+    /**
+     * returns a string that represents the status of the resource handler
+     * @return
+     */
     public String resourceStatusUpdate(){
         return resourceHandler.resourceStatusUpdate();
     }
