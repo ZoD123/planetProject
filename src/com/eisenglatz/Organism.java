@@ -8,10 +8,15 @@ import java.util.UUID;
 public abstract class Organism  implements ICyclable{
     private Planet planet;
     private UUID guid;
+    protected Integer starvationThresholdIncrease;
+    private Integer starvationThreshold;
+    protected Integer starvationRange;
+    private TimeExpiredEvaluator timeExpiredEvaluator;
     protected HashMap<Class, Integer> requiredResource;
     protected HashMap<Class, Resource> availableResource;
     protected HashMap<Class, Integer> producedResource;
-    protected Integer starvationFactor; // > 1000 life is killed
+
+
 
     /**
      * public constructor
@@ -19,14 +24,17 @@ public abstract class Organism  implements ICyclable{
      *               and also defines which resources are available when metabolism get initialized
      */
     public Organism(Planet planet) {
-
+        this.starvationRange = 1000;
+        this.starvationThreshold = 0;
+        this.starvationThresholdIncrease = 500;
         this.planet = planet;
         this.guid = UUID.randomUUID();
         this.planet.lifeReceived(this);
         this.requiredResource = new HashMap<Class, Integer>();
         this.availableResource = new HashMap<Class,Resource>();
         this.producedResource = new HashMap<Class,Integer>();
-        this.starvationFactor = 0;
+        this.timeExpiredEvaluator = new TimeExpiredEvaluator(starvationRange);
+
     }
 
     /**
@@ -35,24 +43,24 @@ public abstract class Organism  implements ICyclable{
     public void eat() throws ResourceEmptyExeption {
         ArrayList<Class> missingResources = detectMissingResources();
 
-        if (starvationFactor > 1000) {
+        if (timeExpiredEvaluator.checkLifeIsExpired(starvationThreshold) == false){
             planet.lifeKilled(this);
+            return;
         }
 
         if (missingResources.size() > 0 ) {
             // increase starvation approximation
-            starvationFactor += 5 * (5+starvationFactor);
+            starvationThreshold += starvationThresholdIncrease;
 
             // try get new resource
             tryGetNewResources(missingResources);
             return;
         }
 
-        //reset starvationFactor
-        starvationFactor = 0;
 
         try {
             metabolismTransformation();
+            starvationThreshold = 0;
         } catch(Exception ex){
 
         }

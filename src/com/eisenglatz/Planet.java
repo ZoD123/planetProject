@@ -14,6 +14,8 @@ public class Planet implements IHasResource {
      */
     private HashMap<UUID,ICyclable> wildlive;
 
+    private ArrayList<ICyclable> wildLiveToKill;
+
     /**
      * public constructor
      * @param seed determine the seed which is used to create initial values
@@ -22,6 +24,7 @@ public class Planet implements IHasResource {
         this.planetName = PlanetName;
         wildlive = new HashMap<UUID, ICyclable>();
         resourceHandler = new ResourceHandler();
+        wildLiveToKill = new ArrayList<ICyclable>();
 
         for (Resource resource: Seed) {
             resourceHandler.addResource(resource);
@@ -61,7 +64,7 @@ public class Planet implements IHasResource {
      * @param object which now is dead :-(
      */
     public void lifeKilled(ICyclable object){
-        wildlive.remove(object.GetUUID());
+        wildLiveToKill.add(object);
     }
 
     /**
@@ -74,6 +77,8 @@ public class Planet implements IHasResource {
         for ( ICyclable element: wildlive.values() )  {
             element.dayDream();
         }
+
+        wildLiveToKillCleanUp();
 
         if(wildlive.size() < 1) {
             throw new DeathWorldException(this);
@@ -108,5 +113,12 @@ public class Planet implements IHasResource {
      */
     public String planetStatusUpdate(){
         return resourceHandler.resourceStatusUpdate() + "Wildlife Status: " + wildlive.size();
+    }
+
+    private void wildLiveToKillCleanUp(){
+        for (ICyclable object : wildLiveToKill
+             ) {
+            wildlive.remove(object.GetUUID());
+        }
     }
 }

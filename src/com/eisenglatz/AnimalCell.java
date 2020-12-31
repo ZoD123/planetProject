@@ -12,9 +12,9 @@ public class AnimalCell extends Organism{
      */
     public AnimalCell(Planet planet) {
         super(planet);
-        super.requiredResource.put(Oxygen.class,2);
-        super.requiredResource.put(Carbon.class,1);
-        super.producedResource.put(CarbonDioxide.class,1);
+        super.requiredResource.put(Oxygen.class,4);
+        super.requiredResource.put(Carbon.class,2);
+        super.producedResource.put(CarbonDioxide.class,2);
     }
 
 
