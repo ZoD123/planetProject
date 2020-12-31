@@ -1,11 +1,7 @@
 package com.eisenglatz;
 
-import java.sql.PreparedStatement;
-import java.time.format.ResolverStyle;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 public class Main {
 
@@ -28,12 +24,13 @@ public class Main {
             cycleCount++;
            try {
                Main.cycling(Sol);
+               System.out.println(newPlanet.planetStatusUpdate());
            } catch (DeathWorldException e) {
                 Sol.remove(e.deadPlanet.getPlanetName());
            }
         }
         System.out.println("World is starved after " + cycleCount + " cycles");
-        System.out.println(newPlanet.resourceStatusUpdate());
+        System.out.println(newPlanet.planetStatusUpdate());
     }
 
 

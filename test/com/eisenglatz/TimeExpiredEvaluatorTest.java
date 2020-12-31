@@ -38,7 +38,7 @@ public class TimeExpiredEvaluatorTest {
             }
         }
 
-        // (* 1000)  (/ 1000) cause of integer
+        // (* 1000)  (/ 1000) cause of Integer
         approximationExpected = ((threshold * 1000 / approximationRange) * endRange) / 1000;
         approximationUpperBoundary = approximationExpected + endRange / 10;
         approximationLowerBoundary = approximationExpected - endRange / 10;

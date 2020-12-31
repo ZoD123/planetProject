@@ -3,6 +3,7 @@ package com.eisenglatz;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 
 public class ResourceHandler implements IHasResource {
@@ -85,17 +86,26 @@ public class ResourceHandler implements IHasResource {
      */
     public String resourceStatusUpdate(){
         String newLine = System.lineSeparator();
-        String output = "Resource Status:" + newLine;
+        String classpath;
+        String classes[];
+        Integer lastIndex;
+        String output = "";
+        Integer ResourceValue;
 
         for (Map.Entry<Class,ArrayList<Resource>> mapElement : resourceTypeMap.entrySet()
              ) {
-            output = output + mapElement.getKey().toString() + ": ";
+            ResourceValue = 0;
+            classpath = mapElement.getKey().toString();
+            classes = classpath.split( Pattern.quote( "." ));
+            lastIndex = classes.length - 1;
 
             for (Resource resourceElement: mapElement.getValue()
                  ) {
-                output = " - " + output + resourceElement.getStock();
+                ResourceValue += resourceElement.getStock();
             }
-            output += newLine;
+
+            output += classes[lastIndex] + ": " + ResourceValue + " | ";
+
         }
         return output;
 
