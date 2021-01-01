@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+
+
 public abstract class Organism  implements ICyclable{
     private Planet planet;
     private UUID guid;

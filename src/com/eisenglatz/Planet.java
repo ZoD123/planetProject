@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
+
 public class Planet implements IHasResource {
 
     private String planetName;
     private ResourceHandler resourceHandler;
+    private Integer cycleCount;
+    private ChartModule chartModule;
 
     /**
      *  Represents the information for all living organisms on the planet
@@ -22,9 +25,11 @@ public class Planet implements IHasResource {
      */
     public Planet(String PlanetName, ArrayList<Resource> Seed) {
         this.planetName = PlanetName;
+        this.cycleCount = 0;
         wildlive = new HashMap<UUID, ICyclable>();
         resourceHandler = new ResourceHandler();
         wildLiveToKill = new ArrayList<ICyclable>();
+        chartModule = new ChartModule(this);
 
         for (Resource resource: Seed) {
             resourceHandler.addResource(resource);
@@ -72,6 +77,7 @@ public class Planet implements IHasResource {
      * @throws DeathWorldException world now is dead :-(
      */
     public void cycling() throws DeathWorldException {
+        cycleCount++;
         String output;
 
         for ( ICyclable element: wildlive.values() )  {
@@ -79,9 +85,10 @@ public class Planet implements IHasResource {
         }
 
         wildLiveToKillCleanUp();
+        addDataPoint();
 
         if(wildlive.size() < 1) {
-            throw new DeathWorldException(this);
+            throw new DeathWorldException(this,"World starved after " + cycleCount + " Cycles" );
         }
 
     }
@@ -120,5 +127,23 @@ public class Planet implements IHasResource {
              ) {
             wildlive.remove(object.GetUUID());
         }
+    }
+
+    public Integer getCycleCount(){
+        return cycleCount;
+    }
+
+    private void addDataPoint(){
+        Resource oxygen = getResource(Oxygen.class,0);
+        if (oxygen == null){
+            return;
+        }
+
+        chartModule.addDataPoint(cycleCount,oxygen.getStock());
+    }
+
+    public void showChart(){
+        chartModule.showChart();
+        chartModule.setVisible(true);
     }
 }

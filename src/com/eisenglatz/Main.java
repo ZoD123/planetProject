@@ -5,6 +5,8 @@ import java.util.HashMap;
 
 public class Main {
 
+    private ChartModule chartModule;
+
     /**
      * Main method
      * @param args
@@ -14,7 +16,6 @@ public class Main {
         seed.add(new Oxygen(4000));
         seed.add(new Carbon(8000));
 //        seed.add(new CarbonDioxide(2));
-        Integer cycleCount = 0;
         HashMap<String, Planet> Sol = new HashMap<String, Planet>();
         Planet newPlanet = new Planet("Earth", seed);
         Sol.put(newPlanet.getPlanetName(), newPlanet);
@@ -22,15 +23,16 @@ public class Main {
         infest(newPlanet);
 
         while(Sol.size()>0) {
-            cycleCount++;
            try {
                Main.cycling(Sol);
                System.out.println(newPlanet.planetStatusUpdate());
            } catch (DeathWorldException e) {
+               System.out.println(e.getMessage());
+                e.deadPlanet.showChart();
                 Sol.remove(e.deadPlanet.getPlanetName());
            }
         }
-        System.out.println("World is starved after " + cycleCount + " cycles");
+
         System.out.println(newPlanet.planetStatusUpdate());
     }
 
