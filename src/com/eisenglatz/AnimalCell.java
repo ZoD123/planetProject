@@ -17,6 +17,11 @@ public class AnimalCell extends Organism{
         super.producedResource.put(CarbonDioxide.class,2);
     }
 
+    @Override
+    protected void reproduce() {
+        new AnimalCell(super.planet);
+        super.reproductionThreshold = 0;
+    }
 
 
 

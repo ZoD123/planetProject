@@ -5,13 +5,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public abstract class Organism  implements ICyclable{
-    private Planet planet;
+public abstract class Organism implements ICyclable{
+    protected Planet planet;
     private UUID guid;
     protected Integer starvationThresholdIncrease;
     private Integer starvationThreshold;
     protected Integer starvationRange;
     private TimeExpiredEvaluator timeExpiredEvaluator;
+    protected Integer reproductionThresholdIncrease;
+    protected Integer reproductionThreshold;
+    protected Integer reproductionRange;
+    private TimeExpiredEvaluator reproductionTimeExpiredEvaluator;
     protected HashMap<Class, Integer> requiredResource;
     protected HashMap<Class, Resource> availableResource;
     protected HashMap<Class, Integer> producedResource;
@@ -27,6 +31,9 @@ public abstract class Organism  implements ICyclable{
         this.starvationRange = 1000;
         this.starvationThreshold = 0;
         this.starvationThresholdIncrease = 500;
+        this.reproductionRange = 1000;
+        this.reproductionThreshold = 0;
+        this.reproductionThresholdIncrease = 50;
         this.planet = planet;
         this.guid = UUID.randomUUID();
         this.planet.lifeReceived(this);
@@ -34,8 +41,11 @@ public abstract class Organism  implements ICyclable{
         this.availableResource = new HashMap<Class,Resource>();
         this.producedResource = new HashMap<Class,Integer>();
         this.timeExpiredEvaluator = new TimeExpiredEvaluator(starvationRange);
-
+        this.reproductionTimeExpiredEvaluator = new TimeExpiredEvaluator(reproductionRange);
     }
+
+    protected abstract void reproduce();
+
 
     /**
      * organisms eats, which activates metabolism and printing of new resource amounts
@@ -60,12 +70,18 @@ public abstract class Organism  implements ICyclable{
 
         try {
             metabolismTransformation();
+            if (starvationThreshold > 0) {
+                starvationThreshold -= starvationThresholdIncrease;
+            }
             starvationThreshold = 0;
         } catch(Exception ex){
 
         }
 
-
+        if (checkForReproduction() == false) {
+            return;
+        }
+        reproduce();
     }
 
     /**
@@ -199,6 +215,23 @@ public abstract class Organism  implements ICyclable{
             planet.addResource(carbonDioxideObject);
             continue;
         }
+    }
+
+    private boolean checkForReproduction() {
+        // no reproduction if cell is starving (not starving -> starvationThreshold == 0)
+        // reset also reproductionThreshold
+        if (starvationThreshold > 0) {
+            reproductionThreshold = 0;
+            return false;
+        }
+        //
+        if (reproductionTimeExpiredEvaluator.checkLifeIsExpired(reproductionThreshold) == true) {
+            // if randomizer decides not to reproduce increase reproduction approximation
+            // such that probability for reproduction in the next round increases
+            reproductionThreshold += reproductionThresholdIncrease;
+            return false;
+        }
+        return true;
     }
 
 }

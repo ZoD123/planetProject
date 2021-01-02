@@ -15,25 +15,30 @@ public class Planet implements IHasResource {
     private HashMap<UUID,ICyclable> wildlive;
 
     private ArrayList<ICyclable> wildLiveToKill;
+    private ArrayList<ICyclable> wildLiveNewLiveToAdd;
 
     /**
      * public constructor
      * @param seed determine the seed which is used to create initial values
      */
-    public Planet(String PlanetName, ArrayList<Resource> Seed) {
+    public Planet(String PlanetName, ArrayList<Resource> seed
+    ) {
         this.planetName = PlanetName;
         wildlive = new HashMap<UUID, ICyclable>();
         resourceHandler = new ResourceHandler();
         wildLiveToKill = new ArrayList<ICyclable>();
+        wildLiveNewLiveToAdd = new ArrayList<ICyclable>();
 
-        for (Resource resource: Seed) {
+        for (Resource resource: seed) {
             resourceHandler.addResource(resource);
         }
+
     }
 
     /**
      * delivers (if possible) the requested ressource from the planet
-     * @param resourceOfInterest the ressource type the requester want to have
+     * @param minAmount //TODO MARCO KOMMENTIEREN
+     * @param type //TODO MARCO KOMMENTIEREN
      * @return the requested ressource
      */
     @Override
@@ -53,10 +58,10 @@ public class Planet implements IHasResource {
 
     /**
      * Planet received a new living organism which is able to live at least one cycle :-)
-     * @param object the object which will be living
+     * @param element the object which will be living
      */
-    public void lifeReceived(ICyclable object) {
-        wildlive.put(object.GetUUID(), object);
+    public void lifeReceived(ICyclable element) {
+        wildLiveNewLiveToAdd.add(element);
     }
 
     /**
@@ -73,12 +78,15 @@ public class Planet implements IHasResource {
      */
     public void cycling() throws DeathWorldException {
         String output;
+        wildLiveToKill.clear();
+        wildLiveNewLiveToAdd.clear();
 
         for ( ICyclable element: wildlive.values() )  {
             element.dayDream();
         }
 
         wildLiveToKillCleanUp();
+        wildLiveAddNewLive();
 
         if(wildlive.size() < 1) {
             throw new DeathWorldException(this);
@@ -116,9 +124,15 @@ public class Planet implements IHasResource {
     }
 
     private void wildLiveToKillCleanUp(){
-        for (ICyclable object : wildLiveToKill
+        for (ICyclable element : wildLiveToKill
              ) {
-            wildlive.remove(object.GetUUID());
+            wildlive.remove(element.GetUUID());
+        }
+    }
+
+    public void wildLiveAddNewLive() {
+        for (ICyclable element : wildLiveNewLiveToAdd) {
+            wildlive.put(element.GetUUID(), element);
         }
     }
 }

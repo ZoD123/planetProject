@@ -13,4 +13,10 @@ public class PlantCell extends Organism{
         super.producedResource.put(Oxygen.class,2);
         super.producedResource.put(Carbon.class,1);
     }
+
+    @Override
+    protected void reproduce() {
+        new PlantCell(super.planet);
+        super.reproductionThreshold = 0;
+    }
 }
