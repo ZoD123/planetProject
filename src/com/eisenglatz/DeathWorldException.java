@@ -7,8 +7,8 @@ public class DeathWorldException extends Exception{
     /**
      * determines that an organism starved
      */
-    public DeathWorldException(Planet deadPlanet) {
-        super();
+    public DeathWorldException(Planet deadPlanet, String message) {
+        super(message);
         this.deadPlanet = deadPlanet;
     }
 }
