@@ -32,9 +32,9 @@ public abstract class Organism implements ICyclable{
         this.starvationRange = 1000;
         this.starvationThreshold = 0;
         this.starvationThresholdIncrease = 500;
-        this.reproductionRange = 1000;
+        this.reproductionRange = 5000;
         this.reproductionThreshold = 0;
-        this.reproductionThresholdIncrease = 50;
+        this.reproductionThresholdIncrease = 10;
         this.planet = planet;
         this.guid = UUID.randomUUID();
         this.planet.lifeReceived(this);
@@ -61,7 +61,7 @@ public abstract class Organism implements ICyclable{
 
         if (missingResources.size() > 0 ) {
             // increase starvation approximation
-            starvationThreshold += starvationThresholdIncrease;
+            starvationThreshold += starvationThreshold * 2 +starvationThresholdIncrease;
 
             // try get new resource
             tryGetNewResources(missingResources);
@@ -71,7 +71,10 @@ public abstract class Organism implements ICyclable{
 
         try {
             metabolismTransformation();
-            if (starvationThreshold > 0) {
+            if (starvationThreshold < 500) {
+                starvationThreshold = 0;
+            }
+            if (starvationThreshold > 500) {
                 starvationThreshold -= starvationThresholdIncrease;
             }
             starvationThreshold = 0;

@@ -13,8 +13,9 @@ public class Main {
      */
     public static void main(String[] args) {
         ArrayList<Resource> seed = new ArrayList<Resource>();
-        seed.add(new Oxygen(4000));
-        seed.add(new Carbon(8000));
+        seed.add(new Oxygen(500));
+        seed.add(new Carbon(500));
+        seed.add(new CarbonDioxide(500));
         Integer cycleCount = 0;
         HashMap<String, Planet> Sol = new HashMap<String, Planet>();
         Planet newPlanet = new Planet("Earth", seed);
