@@ -1,6 +1,8 @@
 package com.eisenglatz;
 
 // Plot import
+import eisenglatz.ResourceDTO.ResourcePlotDTO;
+import eisenglatz.ResourceDTO.SingleResourceDataDTO;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -19,20 +21,48 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class ChartModule extends JFrame {
 
 
-    private XYSeries series;
+    private ArrayList<XYSeries> seriesList;
 
-    public ChartModule(Planet planet) {
-        series = new XYSeries("Oxygen");
+
+    /**
+     * public constructor - creates a chart module with the necessary information
+     * @param resourcePlotDTO Data which has to be printed.
+     */
+    public ChartModule(ResourcePlotDTO resourcePlotDTO) {
+        XYSeries currentSeries;
+        seriesList = new ArrayList<XYSeries>();
+        SingleResourceDataDTO singleResourceDataDTO;
+        String className;
+        HashMap<Integer, Integer> measureMap;
+
+        for (Map.Entry<String, SingleResourceDataDTO> plotData : resourcePlotDTO.plotData.entrySet()) {
+            className = plotData.getKey();
+            singleResourceDataDTO = plotData.getValue();
+            measureMap = singleResourceDataDTO.measureMap;
+            currentSeries = new XYSeries(className);
+
+            for(Map.Entry<Integer, Integer> measureData : measureMap.entrySet()){
+                currentSeries.add(measureData.getKey(),measureData.getValue());
+            }
+            seriesList.add(currentSeries);
+        }
+       // series = new XYSeries("Oxygen");
 
     }
 
-    public void showChart() {
 
+    /**
+     * show the chart
+     */
+    public void showChart() {
         XYDataset dataset = createDataset();
         JFreeChart chart = createChart(dataset);
 
@@ -45,21 +75,30 @@ public class ChartModule extends JFrame {
         setTitle("Resource Graph");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
     }
 
-    public void addDataPoint(Integer xAxis, Integer yAxis){
-        series.add(xAxis, yAxis);
-    }
-
+    /**
+     * create dataset and add serieses to the set
+     * @return
+     */
     private XYDataset createDataset() {
 
         XYSeriesCollection dataset = new XYSeriesCollection();
-        dataset.addSeries(series);
 
+        for ( XYSeries series : seriesList
+             ) {
+            dataset.addSeries(series);
+        }
         return dataset;
     }
 
 
+    /**
+     * create the chart depending on the given dataset
+     * @param dataset
+     * @return the chart object
+     */
     private JFreeChart createChart(XYDataset dataset) {
 
         JFreeChart chart = ChartFactory.createXYLineChart(
@@ -76,8 +115,8 @@ public class ChartModule extends JFrame {
         XYPlot plot = chart.getXYPlot();
 
         var renderer = new XYLineAndShapeRenderer();
-        renderer.setSeriesPaint(0, Color.RED);
-        renderer.setSeriesStroke(0, new BasicStroke(2.0f));
+       // renderer.setSeriesPaint(0, Color.RED);
+       // renderer.setSeriesStroke(0, new BasicStroke(2.0f));
 
         plot.setRenderer(renderer);
         plot.setBackgroundPaint(Color.white);
@@ -87,6 +126,7 @@ public class ChartModule extends JFrame {
 
         plot.setDomainGridlinesVisible(true);
         plot.setDomainGridlinePaint(Color.BLACK);
+
 
         chart.getLegend().setFrame(BlockBorder.NONE);
 

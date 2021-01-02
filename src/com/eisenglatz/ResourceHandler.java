@@ -3,7 +3,6 @@ package com.eisenglatz;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 
 public class ResourceHandler implements IHasResource {
@@ -85,30 +84,59 @@ public class ResourceHandler implements IHasResource {
      * @return the status as string
      */
     public String resourceStatusUpdate(){
-        String newLine = System.lineSeparator();
-        String classpath;
-        String classes[];
-        Integer lastIndex;
+        ClassNameExtractor classNameExtractor = new ClassNameExtractor();
+        Class className;
+        String classNameString;
         String output = "";
         Integer ResourceValue;
 
         for (Map.Entry<Class,ArrayList<Resource>> mapElement : resourceTypeMap.entrySet()
              ) {
             ResourceValue = 0;
-            classpath = mapElement.getKey().toString();
-            classes = classpath.split( Pattern.quote( "." ));
-            lastIndex = classes.length - 1;
+            className = mapElement.getKey();
+            classNameString = classNameExtractor.getExtractedClassName(className);
 
             for (Resource resourceElement: mapElement.getValue()
                  ) {
                 ResourceValue += resourceElement.getStock();
             }
 
-            output += classes[lastIndex] + ": " + ResourceValue + " | ";
+            output += classNameString + ": " + ResourceValue + " | ";
 
         }
         return output;
 
+    }
+
+    /**
+     * returns a List which holds the stock Information for all resources.
+     * @return hashmap - Key = ClassName, Value = Stock
+     */
+    public HashMap<String,Integer> getAllResourceAmounts(){
+        HashMap<String,Integer> resourceStatus = new HashMap<String, Integer>();
+        ClassNameExtractor extractor = new ClassNameExtractor();
+        ArrayList<Resource> resourceList;
+        Class type;
+        String className;
+        Integer stock;
+
+        for ( Map.Entry<Class, ArrayList<Resource>> element : resourceTypeMap.entrySet()
+             ) {
+            type = element.getKey();
+            resourceList = element.getValue();
+
+            stock = 0;
+            className = extractor.getExtractedClassName(type);
+
+            for (Resource resource : resourceList
+                 ) {
+                stock += resource.getStock();
+            }
+
+            resourceStatus.put(className,stock);
+
+        }
+        return resourceStatus;
     }
 
 }

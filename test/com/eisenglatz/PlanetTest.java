@@ -32,9 +32,9 @@ public class PlanetTest {
     @Test
     void lifeReceivedTest() {
         initPlanet();
-        Integer originWildLifeCount = TestPlanet.GetNumberOfLivingOrganism();
+        Integer originWildLifeCount = TestPlanet.getNumberOfLivingOrganism();
         TestPlanet.lifeReceived(new AnimalCell(TestPlanet));
-        Integer newWildLifeCount = TestPlanet.GetNumberOfLivingOrganism();
+        Integer newWildLifeCount = TestPlanet.getNumberOfLivingOrganism();
         assertEquals(originWildLifeCount + 1, newWildLifeCount, "fail - wrong count");
     }
 
@@ -44,9 +44,9 @@ public class PlanetTest {
         Organism testOrganism = new AnimalCell(TestPlanet);
         TestPlanet.lifeReceived(testOrganism);
 
-        Integer originWildLifeCount = TestPlanet.GetNumberOfLivingOrganism();
+        Integer originWildLifeCount = TestPlanet.getNumberOfLivingOrganism();
         TestPlanet.lifeKilled(testOrganism);
-        Integer newWildLifeCount = TestPlanet.GetNumberOfLivingOrganism();
+        Integer newWildLifeCount = TestPlanet.getNumberOfLivingOrganism();
         assertEquals(originWildLifeCount - 1, newWildLifeCount, "fail - wrong count");
     }
 
