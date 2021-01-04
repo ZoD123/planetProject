@@ -234,6 +234,9 @@ public abstract class Organism implements ICyclable {
         }
     }
 
+    /**
+     * checks if organism is capable to reproduce
+     */
     private boolean checkForReproduction() {
         // no reproduction if cell is starving (not starving -> starvationThreshold == 0)
         // reset also reproductionThreshold

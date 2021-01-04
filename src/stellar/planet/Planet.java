@@ -73,8 +73,7 @@ public class Planet implements IHasResource {
     }
 
     /**
-     * Planet received a new living organism which is able to live at least one cycle :-)
-     *
+     * Adds a new living organism to a list and these organisms are initialized in the end of cycle
      * @param element the object which will be living
      */
     public void lifeReceived(ICyclable element) {
@@ -159,6 +158,9 @@ public class Planet implements IHasResource {
         }
     }
 
+    /**
+     * Initializes a new living organism
+     */
     public void wildLiveAddNewLive() {
         for (ICyclable element : wildLiveNewLiveToAdd) {
             wildlive.put(element.GetUUID(), element);

@@ -1,4 +1,4 @@
-package stellar.planet;
+package stellar.resource;
 
 
 import stellar.resource.Resource;

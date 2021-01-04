@@ -1,6 +1,6 @@
 package stellar.organism;
 
-import stellar.planet.Oxygen;
+import stellar.resource.Oxygen;
 import stellar.planet.Planet;
 import stellar.resource.Carbon;
 import stellar.resource.CarbonDioxide;
