@@ -15,6 +15,7 @@ import java.util.UUID;
 
 public abstract class Organism implements ICyclable {
     protected Planet planet;
+    protected Integer starvationThreshold;
     protected Integer starvationThresholdIncrease;
     protected Integer starvationRange;
     protected Integer reproductionThresholdIncrease;
@@ -24,7 +25,6 @@ public abstract class Organism implements ICyclable {
     protected HashMap<Class, Resource> availableResource;
     protected HashMap<Class, Integer> producedResource;
     private UUID guid;
-    private Integer starvationThreshold;
     private TimeExpiredEvaluator timeExpiredEvaluator;
     private TimeExpiredEvaluator reproductionTimeExpiredEvaluator;
 
@@ -36,12 +36,7 @@ public abstract class Organism implements ICyclable {
      *               and also defines which resources are available when metabolism get initialized
      */
     public Organism(Planet planet) {
-        this.starvationRange = 1000;
-        this.starvationThreshold = 0;
-        this.starvationThresholdIncrease = 500;
-        this.reproductionRange = 5000;
-        this.reproductionThreshold = 0;
-        this.reproductionThresholdIncrease = 10;
+        defineLifeProperties();
         this.planet = planet;
         this.guid = UUID.randomUUID();
         this.planet.lifeReceived(this);
@@ -50,6 +45,8 @@ public abstract class Organism implements ICyclable {
         this.producedResource = new HashMap<Class, Integer>();
         this.timeExpiredEvaluator = new TimeExpiredEvaluator(starvationRange);
         this.reproductionTimeExpiredEvaluator = new TimeExpiredEvaluator(reproductionRange);
+
+
     }
 
     /**
@@ -253,5 +250,7 @@ public abstract class Organism implements ICyclable {
         }
         return true;
     }
+
+    protected abstract void defineLifeProperties();
 
 }
