@@ -52,6 +52,9 @@ public abstract class Organism implements ICyclable {
         this.reproductionTimeExpiredEvaluator = new TimeExpiredEvaluator(reproductionRange);
     }
 
+    /**
+     * class creates a new object of itsef.
+     */
     protected abstract void reproduce();
 
 
@@ -61,11 +64,13 @@ public abstract class Organism implements ICyclable {
     public void eat() throws ResourceEmptyExeption {
         ArrayList<Class> missingResources = detectMissingResources();
 
+        // life of organism ends - klass mark as "died" - will remove in next cycle
         if (timeExpiredEvaluator.checkLifeIsExpired(starvationThreshold) == false) {
             planet.lifeKilled(this);
             return;
         }
 
+        // resources out of stock - increase starvation
         if (missingResources.size() > 0) {
             // increase starvation approximation
             starvationThreshold += starvationThreshold * 2 + starvationThresholdIncrease;

@@ -20,6 +20,9 @@ public class PlantCell extends Organism {
         super.producedResource.put(Carbon.class, 1);
     }
 
+    /**
+     * reproduction - a new cell is born.
+     */
     @Override
     protected void reproduce() {
         new PlantCell(super.planet);
