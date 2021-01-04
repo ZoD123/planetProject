@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import stellar.organism.AnimalCell;
 import stellar.organism.Organism;
 import stellar.resource.Carbon;
+import stellar.resource.Oxygen;
 import stellar.resource.Resource;
 
 import java.util.ArrayList;

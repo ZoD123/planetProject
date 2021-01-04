@@ -3,6 +3,7 @@ package stellar.planet;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import stellar.resource.Carbon;
+import stellar.resource.Oxygen;
 import stellar.resource.Resource;
 import stellar.resource.ResourceHandler;
 

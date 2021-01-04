@@ -5,6 +5,7 @@ import stellar.organism.Organism;
 import stellar.organism.PlantCell;
 import stellar.resource.Carbon;
 import stellar.resource.CarbonDioxide;
+import stellar.resource.Oxygen;
 import stellar.resource.Resource;
 
 import java.util.ArrayList;
