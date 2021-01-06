@@ -12,9 +12,8 @@ public abstract class Resource implements IResourceAddable, IResourceConsumable 
      *
      * @param resourceAmount ammount of ressource
      */
-    public Resource(int resourceAmount) {
+    public Resource(Integer resourceAmount) {
         this.value = resourceAmount;
-        resourceHandler = new ResourceHandler();
     }
 
     /**

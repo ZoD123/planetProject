@@ -33,7 +33,7 @@ public class AnimalCell extends Organism {
     protected void defineLifeProperties() {
         super.starvationRange = 1000;
         super.starvationThreshold = 0;
-        super.starvationThresholdIncrease = 500;
+        super.starvationThresholdIncrease = 50;
         super.reproductionRange = 5000;
         super.reproductionThreshold = 0;
         super.reproductionThresholdIncrease = 10;

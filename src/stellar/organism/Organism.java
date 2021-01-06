@@ -2,20 +2,20 @@ package stellar.organism;
 
 import stellar.ICyclable;
 import stellar.IResourceConsumable;
-import stellar.IResourceAddable;
 import stellar.planet.Planet;
 import stellar.planet.TimeExpiredEvaluator;
-import stellar.resource.CarbonDioxide;
 import stellar.resource.Resource;
 import stellar.resource.ResourceEmptyExeption;
 
+import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 
-public abstract class Organism implements ICyclable{
+public abstract class Organism implements ICyclable {
     protected Planet planet;
     protected Integer starvationThreshold;
     protected Integer starvationThresholdIncrease;
@@ -60,7 +60,7 @@ public abstract class Organism implements ICyclable{
     /**
      * organisms eats, which activates metabolism and printing of new resource amounts
      */
-    public void eat() throws ResourceEmptyExeption {
+    public void eat() {
         ArrayList<Class> missingResources = detectMissingResources();
 
         // life of organism ends - klass mark as "died" - will remove in next cycle
@@ -88,7 +88,6 @@ public abstract class Organism implements ICyclable{
             if (starvationThreshold > 500) {
                 starvationThreshold -= starvationThresholdIncrease;
             }
-            starvationThreshold = 0;
         } catch (Exception ex) {
 
         }
@@ -114,12 +113,10 @@ public abstract class Organism implements ICyclable{
      */
     @Override
     public void dayDream() {
-        try {
-            eat();
 
-        } catch (ResourceEmptyExeption e) {
-            planet.lifeKilled(this);
-        }
+        eat();
+
+
     }
 
     /**
@@ -167,9 +164,14 @@ public abstract class Organism implements ICyclable{
 
             requestedAmount = requiredResource.get(type);
             object = planet.getResource(type, requestedAmount);
+            if (object == null){
+                return;
+            }
+
             objectClass = object.getClass();
             isCorrectResourceType = objectClass.isAssignableFrom(type);
-            isCorrectCastable = objectClass.isAssignableFrom(IResourceConsumable.class);
+            //   isCorrectCastable = objectClass.isAssignableFrom(IResourceConsumable.class);
+            isCorrectCastable = object instanceof IResourceConsumable;
             if (isCorrectResourceType == true && isCorrectCastable == true) {
                 requestedResource = (Resource) object;
             }
@@ -211,6 +213,8 @@ public abstract class Organism implements ICyclable{
             resource = availableResource.get(resourceClass);
             amount = element.getValue();
             resource.addAsync(amount);
+            // die zu hinzufügende Resource ist jetzt im ResourceHandler der Resource abespeichert
+            // aber nicht im ResourceHandler des Planeten
         }
     }
 
@@ -218,8 +222,9 @@ public abstract class Organism implements ICyclable{
      * initialize resources which will be produced
      */
     private void initializeResultResources() {
-        Class carbonDioxideClass;
-        Resource carbonDioxideObject = null;
+        Constructor dynamicConstructor;
+        Class resultResourceClass;
+        Resource resourceObject = null;
         Object object;
         Class objectClass;
         boolean isCorrectResourceType;
@@ -228,31 +233,46 @@ public abstract class Organism implements ICyclable{
         for (Map.Entry<Class, Integer> element : producedResource.entrySet()
         ) {
 
-            carbonDioxideClass = element.getKey();
+            resultResourceClass = element.getKey();
 
             // check if resource always available, than use it
-            if (availableResource.containsKey(carbonDioxideClass) == true) {
+            if (availableResource.containsKey(resultResourceClass) == true) {
                 continue;
             }
 
             // if not available, try get resource from planet
-            object = planet.getResource(carbonDioxideClass, 0);
+            object = planet.getResource(resultResourceClass, 0);
             objectClass = object.getClass();
-            isCorrectResourceType = objectClass.isAssignableFrom(carbonDioxideClass);
-            isCorrectCastable = objectClass.isAssignableFrom(IResourceConsumable.class);
+            isCorrectResourceType = objectClass.isAssignableFrom(resultResourceClass);
+            isCorrectCastable = object instanceof IResourceConsumable;
+
             if (isCorrectResourceType == true && isCorrectCastable == true) {
-                carbonDioxideObject = (Resource) object;
+                resourceObject = (Resource)object;
             }
 
-            if (carbonDioxideObject instanceof Resource == true) {
-                availableResource.put(carbonDioxideClass, carbonDioxideObject);
+            if (resourceObject instanceof Resource == true) {
+                availableResource.put(resultResourceClass, resourceObject);
                 continue;
             }
 
-            //if reached this new resource must be created
-            carbonDioxideObject = new CarbonDioxide(0);
-            availableResource.put(carbonDioxideClass, carbonDioxideObject);
-            planet.addResource(carbonDioxideObject);
+            //if reached this new resource must be created carbonDioxideObject
+            try {
+                dynamicConstructor = resultResourceClass.getConstructor(Integer.class);
+                object = dynamicConstructor.newInstance(0);
+
+                if (object instanceof Resource == false){
+                    continue;
+                }
+                resourceObject = (Resource)object;
+                availableResource.put(objectClass,resourceObject);
+
+            } catch (Exception methodException) {
+                System.out.println(methodException.getMessage());
+                return;
+            }
+
+
+            planet.addResource(resourceObject);
             continue;
         }
     }

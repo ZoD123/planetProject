@@ -21,11 +21,12 @@ public class PlanetTest {
      * init test Environment
      */
     public void initPlanet() {
+        PlanetarySystem planetarySystem = new PlanetarySystem();
         ArrayList<Resource> seed = new ArrayList<Resource>();
         seed.add(new Oxygen(resourceStartAmount));
         seed.add(new Carbon(resourceStartAmount));
 
-        testPlanet = new Planet("TestPlanet", seed);
+        testPlanet = new Planet(seed, planetarySystem);
     }
 
     @Test
@@ -50,12 +51,8 @@ public class PlanetTest {
         testPlanet.lifeReceived(testOrganism);
 
         Integer originWildLifeCount = testPlanet.getNumberOfLivingOrganism();
-        try {
-            testPlanet.lifeKilled(testOrganism);
-            testPlanet.cycling();
-        } catch (DeathWorldException ex) {
-
-        }
+        testPlanet.lifeKilled(testOrganism);
+      //  testPlanet.cycling();
         Integer newWildLifeCount = testPlanet.getNumberOfLivingOrganism();
         assertEquals(originWildLifeCount - 1, newWildLifeCount, "fail - wrong count");
     }

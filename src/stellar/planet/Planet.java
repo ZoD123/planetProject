@@ -12,9 +12,12 @@ import java.util.HashMap;
 import java.util.UUID;
 
 
-public class Planet implements IHasResource {
+public class Planet implements IHasResource, Runnable {
 
-    private String planetName;
+    private Thread thread;
+    private PlanetarySystem planetarySystem;
+    private final Integer maxCycles = 500;
+    private UUID planetID;
     private ResourceHandler resourceHandler;
     private Integer cycleCount;
     private ResourcePlotDTO resourcePlotDTO;
@@ -33,9 +36,9 @@ public class Planet implements IHasResource {
      *
      * @param seed determine the seed which is used to create initial values
      */
-    public Planet(String PlanetName, ArrayList<Resource> seed
-    ) {
-        this.planetName = PlanetName;
+    public Planet(ArrayList<Resource> seed, PlanetarySystem system) {
+        planetarySystem = system;
+        this.planetID = UUID.randomUUID();
         this.cycleCount = 0;
         wildlive = new HashMap<UUID, ICyclable>();
         resourceHandler = new ResourceHandler();
@@ -94,27 +97,33 @@ public class Planet implements IHasResource {
      *
      * @throws DeathWorldException world now is dead :-(
      */
-    public void cycling() throws DeathWorldException {
-        cycleCount++;
-        String output;
+    private void cycling() {
 
-        wildLiveToKill.clear();
-        wildLiveNewLiveToAdd.clear();
 
-        ResourceDTOConstructor resourceDTOConstructor = new ResourceDTOConstructor();
-        resourceDTOConstructor.makeSnapshot(resourcePlotDTO, this);
+        while(cycleCount < maxCycles) {
+            cycleCount++;
+            String output;
 
-        for (ICyclable element : wildlive.values()) {
-            element.dayDream();
-        }
+            ResourceDTOConstructor resourceDTOConstructor = new ResourceDTOConstructor();
+            resourceDTOConstructor.makeSnapshot(resourcePlotDTO, this);
+
+            for (ICyclable element : wildlive.values()) {
+                element.dayDream();
+            }
 
         wildLiveToKillCleanUp();
         wildLiveAddNewLive();
         resourceHandler.cleanUpResourceToAddMap();
 
-        if (wildlive.size() < 1) {
-            throw new DeathWorldException(this, "World starved after " + cycleCount + " Cycles");
+            if (wildlive.size() < 1) {
+
+                synchronized (planetarySystem) {
+                    planetarySystem.planetDied(this);
+                }
+                break;
+            }
         }
+
 
     }
 
@@ -123,8 +132,8 @@ public class Planet implements IHasResource {
      *
      * @return name of the planet
      */
-    public String getPlanetName() {
-        return planetName;
+    public UUID getPlanetID() {
+        return planetID;
     }
 
     /**
@@ -157,6 +166,7 @@ public class Planet implements IHasResource {
         ) {
             wildlive.remove(element.GetUUID());
         }
+        wildLiveToKill.clear();
     }
 
     /**
@@ -166,6 +176,7 @@ public class Planet implements IHasResource {
         for (ICyclable element : wildLiveNewLiveToAdd) {
             wildlive.put(element.GetUUID(), element);
         }
+        wildLiveNewLiveToAdd.clear();
     }
 
     /**
@@ -193,5 +204,31 @@ public class Planet implements IHasResource {
     public void showChart() {
         ChartModule chartModule = chartModule = new ChartModule(resourcePlotDTO);
         chartModule.showChart();
+    }
+
+    /**
+     * implementation of Runnable interface - multithreading
+     */
+    @Override
+    public void run() {
+
+            cycling();
+
+            if (cycleCount > 5) {
+                showChart();
+            }
+
+
+    }
+
+    /**
+     * starts the thread
+     */
+    public void start(){
+        if(thread != null){
+            return;
+        }
+        thread = new Thread(this);
+        thread.start();
     }
 }

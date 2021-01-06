@@ -9,7 +9,7 @@ public class Oxygen extends Resource {
      *
      * @param resourceAmount
      */
-    public Oxygen(int resourceAmount) {
+    public Oxygen(Integer resourceAmount) {
         super(resourceAmount);
     }
 }
