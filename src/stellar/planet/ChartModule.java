@@ -52,7 +52,6 @@ public class ChartModule extends JFrame {
             }
             seriesList.add(currentSeries);
         }
-        // series = new XYSeries("Oxygen");
 
     }
 
@@ -130,7 +129,7 @@ public class ChartModule extends JFrame {
 
         chart.getLegend().setFrame(BlockBorder.NONE);
 
-        chart.setTitle(new TextTitle("amount of oxygen",
+        chart.setTitle(new TextTitle("planet",
                         new Font("Serif", java.awt.Font.BOLD, 18)
                 )
         );

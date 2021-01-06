@@ -58,7 +58,7 @@ public abstract class Organism implements ICyclable {
     /**
      * organisms eats, which activates metabolism and printing of new resource amounts
      */
-    public void eat() throws ResourceEmptyExeption {
+    public void eat()  {
         ArrayList<Class> missingResources = detectMissingResources();
 
         // life of organism ends - klass mark as "died" - will remove in next cycle
@@ -112,12 +112,10 @@ public abstract class Organism implements ICyclable {
      */
     @Override
     public void dayDream() {
-        try {
+
             eat();
 
-        } catch (ResourceEmptyExeption e) {
-            planet.lifeKilled(this);
-        }
+
     }
 
     /**
