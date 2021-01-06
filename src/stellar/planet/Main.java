@@ -28,7 +28,7 @@ public class Main {
         seed.add(new Carbon(500));
         seed.add(new CarbonDioxide(500));
 
-        while(cycleCount < 2) {
+        while(cycleCount < 5) {
             cycleCount++;
             Planet newPlanet = new Planet(seed, planetarySystem);
             planetarySystem.add(newPlanet);
