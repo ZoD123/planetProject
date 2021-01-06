@@ -9,5 +9,5 @@ import stellar.resource.Resource;
 public interface IHasResource {
     public void addResource(Resource resourceToAdd);
 
-    public Resource getResource(Class type, Integer minAmount);
+    public Object getResource(Class type, Integer minAmount);
 }

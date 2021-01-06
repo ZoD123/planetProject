@@ -44,7 +44,7 @@ public class ResourceHandlerTest {
 
     @Test
     void getResourceClassNotExistingTest() {
-        Resource testResource = resourceTestHandler.getResource(Oxygen.class, initAmount);
+        Object testResource = resourceTestHandler.getResource(Oxygen.class, initAmount);
         assertNull(testResource);
     }
 
@@ -55,7 +55,7 @@ public class ResourceHandlerTest {
         Integer newCount = resourceTestHandler.getFieldSize(Oxygen.class);
         assertEquals(originCount + 1, newCount);
 
-        Resource testResource = resourceTestHandler.getResource(Oxygen.class, initAmount + 1);
+        Object testResource = resourceTestHandler.getResource(Oxygen.class, initAmount + 1);
         assertNull(testResource);
     }
 
@@ -67,10 +67,10 @@ public class ResourceHandlerTest {
         Integer newCount = resourceTestHandler.getFieldSize(Oxygen.class);
         assertEquals(originCount + 1, newCount);
 
-        Resource testResource = resourceTestHandler.getResource(Oxygen.class, initAmount);
+        Object testResource = resourceTestHandler.getResource(Oxygen.class, initAmount);
         assertSame(oxygenField, testResource);
 
-        Resource testResource2 = resourceTestHandler.getResource(Oxygen.class, initAmount - 1);
+        Object testResource2 = resourceTestHandler.getResource(Oxygen.class, initAmount - 1);
         assertSame(oxygenField, testResource2);
     }
 }

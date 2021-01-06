@@ -1,6 +1,8 @@
 package stellar.organism;
 
 import stellar.ICyclable;
+import stellar.IResourceConsumable;
+import stellar.IResourceAddable;
 import stellar.planet.Planet;
 import stellar.planet.TimeExpiredEvaluator;
 import stellar.resource.CarbonDioxide;
@@ -13,7 +15,7 @@ import java.util.Map;
 import java.util.UUID;
 
 
-public abstract class Organism implements ICyclable {
+public abstract class Organism implements ICyclable{
     protected Planet planet;
     protected Integer starvationThreshold;
     protected Integer starvationThresholdIncrease;
@@ -153,18 +155,29 @@ public abstract class Organism implements ICyclable {
      * @param requestesResources
      */
     private void tryGetNewResources(ArrayList<Class> requestesResources) {
-        Resource requestedResource;
+        Object object;
+        Class objectClass;
+        Resource requestedResource = null;
         Integer requestedAmount;
+        boolean isCorrectResourceType;
+        boolean isCorrectCastable;
 
         for (Class type : requestesResources) {
             availableResource.remove(type);
 
             requestedAmount = requiredResource.get(type);
-            requestedResource = planet.getResource(type, requestedAmount);
+            object = planet.getResource(type, requestedAmount);
+            objectClass = object.getClass();
+            isCorrectResourceType = objectClass.isAssignableFrom(type);
+            isCorrectCastable = objectClass.isAssignableFrom(IResourceConsumable.class);
+            if (isCorrectResourceType == true && isCorrectCastable == true) {
+                requestedResource = (Resource) object;
+            }
 
             if (requestedResource == null) {
                 continue;
             }
+
             availableResource.put(type, requestedResource);
         }
 
@@ -197,7 +210,7 @@ public abstract class Organism implements ICyclable {
             resourceClass = element.getKey();
             resource = availableResource.get(resourceClass);
             amount = element.getValue();
-            resource.produce(amount);
+            resource.addAsync(amount);
         }
     }
 
@@ -206,8 +219,11 @@ public abstract class Organism implements ICyclable {
      */
     private void initializeResultResources() {
         Class carbonDioxideClass;
-        Resource carbonDioxideObject;
-
+        Resource carbonDioxideObject = null;
+        Object object;
+        Class objectClass;
+        boolean isCorrectResourceType;
+        boolean isCorrectCastable;
 
         for (Map.Entry<Class, Integer> element : producedResource.entrySet()
         ) {
@@ -220,7 +236,14 @@ public abstract class Organism implements ICyclable {
             }
 
             // if not available, try get resource from planet
-            carbonDioxideObject = planet.getResource(carbonDioxideClass, 0);
+            object = planet.getResource(carbonDioxideClass, 0);
+            objectClass = object.getClass();
+            isCorrectResourceType = objectClass.isAssignableFrom(carbonDioxideClass);
+            isCorrectCastable = objectClass.isAssignableFrom(IResourceConsumable.class);
+            if (isCorrectResourceType == true && isCorrectCastable == true) {
+                carbonDioxideObject = (Resource) object;
+            }
+
             if (carbonDioxideObject instanceof Resource == true) {
                 availableResource.put(carbonDioxideClass, carbonDioxideObject);
                 continue;

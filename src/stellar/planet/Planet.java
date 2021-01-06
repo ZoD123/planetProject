@@ -57,9 +57,9 @@ public class Planet implements IHasResource {
      * @return the requested ressource
      */
     @Override
-    public Resource getResource(Class type, Integer minAmount) {
-        Resource resource = resourceHandler.getResource(type, minAmount);
-        return resource;
+    public Object getResource(Class type, Integer minAmount) {
+        Object object = resourceHandler.getResource(type, minAmount);
+        return object;
     }
 
     /**
@@ -110,6 +110,7 @@ public class Planet implements IHasResource {
 
         wildLiveToKillCleanUp();
         wildLiveAddNewLive();
+        resourceHandler.cleanUpResourceToAddMap();
 
         if (wildlive.size() < 1) {
             throw new DeathWorldException(this, "World starved after " + cycleCount + " Cycles");

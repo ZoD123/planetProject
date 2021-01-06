@@ -37,18 +37,18 @@ class OxygenTest {
         }
     }
 
-    @Test
-    void produceTest() {
-        try {
-            Integer amountProduced = 300;
-            Integer receivedAmountOxygen = oxField.getStock();
-            oxField.produce(amountProduced);
-
-            Integer receivedAmountOxygenNew = oxField.getStock();
-            Integer amountExpected = receivedAmountOxygen + amountProduced;
-            assertEquals(amountExpected, receivedAmountOxygenNew);
-        } catch (Exception ex) {
-
-        }
-    }
+//    @Test
+//    void produceTest() {
+//        try {
+//            Integer amountProduced = 300;
+//            Integer receivedAmountOxygen = oxField.getStock();
+//            oxField.produce(amountProduced);
+//
+//            Integer receivedAmountOxygenNew = oxField.getStock();
+//            Integer amountExpected = receivedAmountOxygen + amountProduced;
+//            assertEquals(amountExpected, receivedAmountOxygenNew);
+//        } catch (Exception ex) {
+//
+//        }
+//    }
 }

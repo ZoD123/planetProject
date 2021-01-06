@@ -37,18 +37,18 @@ class CarbonTest {
         }
     }
 
-    @Test
-    void produceTest() {
-        try {
-            Integer amountProduced = 300;
-            Integer receivedAmountOxygen = caField.getStock();
-            caField.produce(amountProduced);
-
-            Integer receivedAmountOxygenNew = caField.getStock();
-            Integer amountExpected = receivedAmountOxygen + amountProduced;
-            assertEquals(amountExpected, receivedAmountOxygenNew);
-        } catch (Exception ex) {
-
-        }
-    }
+//    @Test
+//    void produceTest() {
+//        try {
+//            Integer amountProduced = 300;
+//            Integer receivedAmountOxygen = caField.getStock();
+//            caField.produce(amountProduced);
+//
+//            Integer receivedAmountOxygenNew = caField.getStock();
+//            Integer amountExpected = receivedAmountOxygen + amountProduced;
+//            assertEquals(amountExpected, receivedAmountOxygenNew);
+//        } catch (Exception ex) {
+//
+//        }
+//    }
 }

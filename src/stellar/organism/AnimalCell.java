@@ -38,4 +38,5 @@ public class AnimalCell extends Organism {
         super.reproductionThreshold = 0;
         super.reproductionThresholdIncrease = 10;
     }
+
 }

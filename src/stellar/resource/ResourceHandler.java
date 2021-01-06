@@ -1,6 +1,7 @@
 package stellar.resource;
 
 import stellar.IHasResource;
+import stellar.IResourceAddable;
 import stellar.planet.ClassNameExtractor;
 
 import java.util.ArrayList;
@@ -10,9 +11,11 @@ import java.util.Map;
 
 public class ResourceHandler implements IHasResource {
     private HashMap<Class, ArrayList<Resource>> resourceTypeMap;
+    private HashMap<Resource, Integer> resourceToAddMap;
 
     public ResourceHandler() {
         resourceTypeMap = new HashMap<Class, ArrayList<Resource>>();
+        resourceToAddMap = new HashMap<Resource, Integer>();
     }
 
     @Override
@@ -30,25 +33,22 @@ public class ResourceHandler implements IHasResource {
         if (containsResourceClass == true) {
             ArrayList resourceList = resourceTypeMap.get(resourceClass);
             resourceList.add(resourceToAdd);
-
-            return;
         }
 
         if (containsResourceClass == false) {
             ArrayList resourceList = new ArrayList();
             resourceList.add(resourceToAdd);
             resourceTypeMap.put(resourceClass, resourceList);
-
-            return;
         }
 
+        resourceToAdd.setResourceHandler(this);
     }
 
     /**
      * returns requested resource with at least the requested amount from resource managed structure
      */
     @Override
-    public Resource getResource(Class type, Integer minAmount) {
+    public Object getResource(Class type, Integer minAmount) {
         // try to iterate over ArrayList and return first Resource element whose Resource.value >= min Amount
         // if no Resource.value of any Resource element contains the minAmount -> return null object
 
@@ -67,7 +67,7 @@ public class ResourceHandler implements IHasResource {
             resultResource = resource;
             break;
         }
-        return resultResource;
+        return (Object) resultResource;
     }
 
     /**
@@ -144,4 +144,40 @@ public class ResourceHandler implements IHasResource {
         return resourceStatus;
     }
 
+    /**
+     * saves produced amount in a management system until it will be added to resource.value
+     * @param resource which gets the produced value amount
+     * @param value amount of resource which will be produced
+     */
+    protected void putResourceToAddMap(Resource resource, Integer value) {
+        // if resource object already available as key in HashMap, add the newly produced value to the previous one
+        // if resource object is not available then create new entry
+        boolean containsResourceClass = resourceToAddMap.containsKey(resource);
+
+        if (containsResourceClass == true) {
+            Integer newValue = resourceToAddMap.get(resource) + value;
+            resourceToAddMap.put(resource, newValue);
+
+            return;
+        }
+
+        if (containsResourceClass == false) {
+            resourceToAddMap.put(resource, value);
+
+            return;
+        }
+    }
+
+    /**
+     * adds all produced amounts of the respective resource to resource.value
+     */
+    public void cleanUpResourceToAddMap() {
+        for (Resource resource : resourceToAddMap.keySet()) {
+            Integer valueToAdd = resourceToAddMap.get(resource);
+            resource.addValue(valueToAdd);
+        }
+
+        // delete all entries such that HashMap is clean for the next cycle
+        resourceToAddMap.clear();
+    }
 }

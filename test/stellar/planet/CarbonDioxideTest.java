@@ -37,18 +37,18 @@ class CarbonDioxideTest {
         }
     }
 
-    @Test
-    void produceTest() {
-        try {
-            Integer amountProduced = 300;
-            Integer receivedAmountOxygen = coField.getStock();
-            coField.produce(amountProduced);
-
-            Integer receivedAmountOxygenNew = coField.getStock();
-            Integer amountExpected = receivedAmountOxygen + amountProduced;
-            assertEquals(amountExpected, receivedAmountOxygenNew);
-        } catch (Exception ex) {
-
-        }
-    }
+//    @Test
+//    void addValueTest() {
+//        try {
+//            Integer amountProduced = 300;
+//            Integer receivedAmountOxygen = coField.getStock();
+//            coField.addValue(amountProduced);
+//
+//            Integer receivedAmountOxygenNew = coField.getStock();
+//            Integer amountExpected = receivedAmountOxygen + amountProduced;
+//            assertEquals(amountExpected, receivedAmountOxygenNew);
+//        } catch (Exception ex) {
+//
+//        }
+//    }
 }
