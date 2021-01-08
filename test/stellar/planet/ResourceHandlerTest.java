@@ -7,6 +7,8 @@ import stellar.resource.Oxygen;
 import stellar.resource.Resource;
 import stellar.resource.ResourceHandler;
 
+import java.util.HashMap;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ResourceHandlerTest {
@@ -72,5 +74,20 @@ public class ResourceHandlerTest {
 
         Object testResource2 = resourceTestHandler.getResource(Oxygen.class, initAmount - 1);
         assertSame(oxygenField, testResource2);
+    }
+
+    @Test
+    void cleanUpResourceToAddMap() {
+        Oxygen oxField = new Oxygen(initAmount);
+        oxField.setResourceHandler(resourceTestHandler);
+        Integer valueToAdd = 10;
+        oxField.addAsync(valueToAdd);
+        ResourceHandler updatedResourceTestHandler = oxField.getResourceHandler();
+        HashMap<Resource, Integer> resourceToAddMap = updatedResourceTestHandler.cleanUpResourceToAddMap();
+
+        Integer newAmount = oxField.getStock();
+        assertEquals(initAmount+valueToAdd, newAmount);
+        Boolean isEmtpy = resourceToAddMap.isEmpty();
+        assertTrue(isEmtpy);
     }
 }

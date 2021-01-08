@@ -3,6 +3,8 @@ package stellar.resource;
 import stellar.IResourceAddable;
 import stellar.IResourceConsumable;
 
+import java.util.HashMap;
+
 public abstract class Resource implements IResourceAddable, IResourceConsumable {
     private ResourceHandler resourceHandler;
     private Integer value;
@@ -50,10 +52,12 @@ public abstract class Resource implements IResourceAddable, IResourceConsumable 
      * produced amount is saved and will be added later on (after cycle is completed)
      *
      * @param value amount of resource which will be produced
+     * @return
      */
     @Override
-    public void addAsync(Integer value) {
-        resourceHandler.putResourceToAddMap(this, value);
+    public HashMap<Resource, Integer> addAsync(Integer value) {
+        HashMap<Resource, Integer> resourceToAddMap = resourceHandler.putResourceToAddMap(this, value);
+        return resourceToAddMap;
     }
 
     /**
@@ -64,11 +68,21 @@ public abstract class Resource implements IResourceAddable, IResourceConsumable 
     protected Integer addValue(Integer value) {
         this.value = this.value + value;
         return this.value;
-
     }
 
+    /**
+     * sets new ResourceHandler object
+     * @param resourceHandler which shall bet set
+     */
     public void setResourceHandler(ResourceHandler resourceHandler) {
         this.resourceHandler = resourceHandler;
     }
 
+    /**
+     * returns ResourceHandler object of respective Resource object
+     * @return resourceHandler object
+     */
+    public ResourceHandler getResourceHandler() {
+        return this.resourceHandler;
+    }
 }

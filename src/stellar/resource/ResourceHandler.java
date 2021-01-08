@@ -17,10 +17,10 @@ public class ResourceHandler implements IHasResource {
         resourceToAddMap = new HashMap<Resource, Integer>();
     }
 
-    @Override
     /**
      * adds resource to a resource managed structure
      */
+    @Override
     public void addResource(Resource resourceToAdd) {
         // query resourceTypeMap if class type (e.g. Oxygen) is already key of HashMap
         // if yes add resource object to ArrayList
@@ -149,7 +149,7 @@ public class ResourceHandler implements IHasResource {
      * @param resource which gets the produced value amount
      * @param value    amount of resource which will be produced
      */
-    protected void putResourceToAddMap(Resource resource, Integer value) {
+    protected HashMap putResourceToAddMap(Resource resource, Integer value) {
         // if resource object already available as key in HashMap, add the newly produced value to the previous one
         // if resource object is not available then create new entry
         boolean containsResourceClass = resourceToAddMap.containsKey(resource);
@@ -158,20 +158,22 @@ public class ResourceHandler implements IHasResource {
             Integer newValue = resourceToAddMap.get(resource) + value;
             resourceToAddMap.put(resource, newValue);
 
-            return;
+            return resourceToAddMap;
         }
 
         if (containsResourceClass == false) {
             resourceToAddMap.put(resource, value);
 
-            return;
+            return resourceToAddMap;
         }
+
+        return resourceToAddMap;
     }
 
     /**
      * adds all produced amounts of the respective resource to resource.value
      */
-    public void cleanUpResourceToAddMap() {
+    public HashMap cleanUpResourceToAddMap() {
         for (Resource resource : resourceToAddMap.keySet()) {
             Integer valueToAdd = resourceToAddMap.get(resource);
             resource.addValue(valueToAdd);
@@ -179,5 +181,7 @@ public class ResourceHandler implements IHasResource {
 
         // delete all entries such that HashMap is clean for the next cycle
         resourceToAddMap.clear();
+
+        return resourceToAddMap;
     }
 }

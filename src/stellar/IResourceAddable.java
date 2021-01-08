@@ -1,8 +1,12 @@
 package stellar;
 
+import stellar.resource.Resource;
+
+import java.util.HashMap;
+
 /**
  * interface for adding resource
  */
 public interface IResourceAddable {
-    public void addAsync(Integer value);
+    public HashMap<Resource, Integer> addAsync(Integer value);
 }
