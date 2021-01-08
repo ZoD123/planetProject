@@ -48,6 +48,7 @@ public abstract class Resource implements IResourceAddable, IResourceConsumable 
 
     /**
      * produced amount is saved and will be added later on (after cycle is completed)
+     *
      * @param value amount of resource which will be produced
      */
     @Override
@@ -57,11 +58,13 @@ public abstract class Resource implements IResourceAddable, IResourceConsumable 
 
     /**
      * produces the amount of resource
+     *
      * @param value amount of produced resource
      */
-    protected Integer addValue(Integer value){
+    protected Integer addValue(Integer value) {
         this.value = this.value + value;
         return this.value;
+
     }
 
     public void setResourceHandler(ResourceHandler resourceHandler) {

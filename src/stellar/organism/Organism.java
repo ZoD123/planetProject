@@ -7,7 +7,6 @@ import stellar.planet.TimeExpiredEvaluator;
 import stellar.resource.Resource;
 import stellar.resource.ResourceEmptyExeption;
 
-import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -164,7 +163,7 @@ public abstract class Organism implements ICyclable {
 
             requestedAmount = requiredResource.get(type);
             object = planet.getResource(type, requestedAmount);
-            if (object == null){
+            if (object == null) {
                 return;
             }
 
@@ -247,7 +246,7 @@ public abstract class Organism implements ICyclable {
             isCorrectCastable = object instanceof IResourceConsumable;
 
             if (isCorrectResourceType == true && isCorrectCastable == true) {
-                resourceObject = (Resource)object;
+                resourceObject = (Resource) object;
             }
 
             if (resourceObject instanceof Resource == true) {
@@ -260,11 +259,11 @@ public abstract class Organism implements ICyclable {
                 dynamicConstructor = resultResourceClass.getConstructor(Integer.class);
                 object = dynamicConstructor.newInstance(0);
 
-                if (object instanceof Resource == false){
+                if (object instanceof Resource == false) {
                     continue;
                 }
-                resourceObject = (Resource)object;
-                availableResource.put(objectClass,resourceObject);
+                resourceObject = (Resource) object;
+                availableResource.put(objectClass, resourceObject);
 
             } catch (Exception methodException) {
                 System.out.println(methodException.getMessage());

@@ -1,9 +1,9 @@
 package stellar.organism;
 
-import stellar.resource.Oxygen;
 import stellar.planet.Planet;
 import stellar.resource.Carbon;
 import stellar.resource.CarbonDioxide;
+import stellar.resource.Oxygen;
 
 public class AnimalCell extends Organism {
 

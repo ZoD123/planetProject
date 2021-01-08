@@ -1,7 +1,5 @@
 package stellar;
 
-import stellar.resource.ResourceEmptyExeption;
-
 /**
  * interface for adding resource
  */

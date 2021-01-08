@@ -7,8 +7,8 @@ import java.util.Random;
  * expired (sad....)
  */
 public class TimeExpiredEvaluator {
-    private Integer range;
-    private Random randomGenerator;
+    private final Integer range;
+    private final Random randomGenerator;
 
     /**
      * public constructor
@@ -30,9 +30,6 @@ public class TimeExpiredEvaluator {
     public boolean checkLifeIsExpired(Integer threshold) {
         Integer randomNumber = randomGenerator.nextInt(range);
 
-        if (randomNumber >= threshold) {
-            return true;
-        }
-        return false;
+        return randomNumber >= threshold;
     }
 }
