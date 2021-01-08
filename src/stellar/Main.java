@@ -1,15 +1,15 @@
-package stellar.planet;
+package stellar;
 
 import stellar.organism.AnimalCell;
 import stellar.organism.Organism;
-import stellar.organism.PlantCell;
+import stellar.planet.Planet;
+import stellar.planet.PlanetarySystem;
 import stellar.resource.Carbon;
 import stellar.resource.CarbonDioxide;
 import stellar.resource.Oxygen;
 import stellar.resource.Resource;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Main {
 
@@ -21,25 +21,26 @@ public class Main {
      */
     public static void main(String[] args) {
         Integer cycleCount = 0;
+        Integer maxCycles = 3;
 
         PlanetarySystem planetarySystem = new PlanetarySystem();
-        ArrayList<Resource> seed = new ArrayList<Resource>();
-        seed.add(new Oxygen(500));
-        seed.add(new Carbon(500));
-        seed.add(new CarbonDioxide(500));
 
-        while(cycleCount < 5) {
+
+        while (cycleCount < maxCycles) {
             cycleCount++;
+            ArrayList<Resource> seed = new ArrayList<Resource>();
+            seed.add(new Oxygen(50000));
+            seed.add(new Carbon(50000));
+            seed.add(new CarbonDioxide(50000));
             Planet newPlanet = new Planet(seed, planetarySystem);
             planetarySystem.add(newPlanet);
             infest(newPlanet);
             newPlanet.start();
         }
 
-       System.out.println("Simulierte Planeten: " + planetarySystem.getDeadPlanetsCount());
+        System.out.println("Simulierte Planeten: " + planetarySystem.getDeadPlanetsCount());
 
-        }
-
+    }
 
 
     /**

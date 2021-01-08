@@ -80,7 +80,7 @@ public class ResourceDTOConstructor {
             plotData = plotDTO.plotData.get(wildLifeNode);
         }
 
-        plotData.measureMap.put(cycle,wildLifeStock);
+        plotData.measureMap.put(cycle, wildLifeStock);
 
 
     }

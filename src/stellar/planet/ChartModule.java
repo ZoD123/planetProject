@@ -2,8 +2,6 @@ package stellar.planet;
 
 // Plot import
 
-import stellar.ResourceDTO.ResourcePlotDTO;
-import stellar.ResourceDTO.SingleResourceDataDTO;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -15,6 +13,8 @@ import org.jfree.chart.title.TextTitle;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+import stellar.ResourceDTO.ResourcePlotDTO;
+import stellar.ResourceDTO.SingleResourceDataDTO;
 
 import javax.swing.*;
 import java.awt.*;

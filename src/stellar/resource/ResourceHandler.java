@@ -1,7 +1,6 @@
 package stellar.resource;
 
 import stellar.IHasResource;
-import stellar.IResourceAddable;
 import stellar.planet.ClassNameExtractor;
 
 import java.util.ArrayList;
@@ -146,8 +145,9 @@ public class ResourceHandler implements IHasResource {
 
     /**
      * saves produced amount in a management system until it will be added to resource.value
+     *
      * @param resource which gets the produced value amount
-     * @param value amount of resource which will be produced
+     * @param value    amount of resource which will be produced
      */
     protected void putResourceToAddMap(Resource resource, Integer value) {
         // if resource object already available as key in HashMap, add the newly produced value to the previous one

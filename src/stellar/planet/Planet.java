@@ -1,9 +1,9 @@
 package stellar.planet;
 
-import stellar.ResourceDTO.ResourceDTOConstructor;
-import stellar.ResourceDTO.ResourcePlotDTO;
 import stellar.ICyclable;
 import stellar.IHasResource;
+import stellar.ResourceDTO.ResourceDTOConstructor;
+import stellar.ResourceDTO.ResourcePlotDTO;
 import stellar.resource.Resource;
 import stellar.resource.ResourceHandler;
 
@@ -14,9 +14,9 @@ import java.util.UUID;
 
 public class Planet implements IHasResource, Runnable {
 
+    private final Integer maxCycles = 500;
     private Thread thread;
     private PlanetarySystem planetarySystem;
-    private final Integer maxCycles = 500;
     private UUID planetID;
     private ResourceHandler resourceHandler;
     private Integer cycleCount;
@@ -77,6 +77,7 @@ public class Planet implements IHasResource, Runnable {
 
     /**
      * Adds a new living organism to a list and these organisms are initialized in the end of cycle
+     *
      * @param element the object which will be living
      */
     public void lifeReceived(ICyclable element) {
@@ -97,10 +98,10 @@ public class Planet implements IHasResource, Runnable {
      *
      * @throws DeathWorldException world now is dead :-(
      */
-    private void cycling() {
+    public void cycling() {
 
 
-        while(cycleCount < maxCycles) {
+        while (cycleCount < maxCycles) {
             cycleCount++;
             String output;
 
@@ -111,9 +112,9 @@ public class Planet implements IHasResource, Runnable {
                 element.dayDream();
             }
 
-        wildLiveToKillCleanUp();
-        wildLiveAddNewLive();
-        resourceHandler.cleanUpResourceToAddMap();
+            wildLiveToKillCleanUp();
+            wildLiveAddNewLive();
+            resourceHandler.cleanUpResourceToAddMap();
 
             if (wildlive.size() < 1) {
 
@@ -122,7 +123,9 @@ public class Planet implements IHasResource, Runnable {
                 }
                 break;
             }
+
         }
+        showChart();
 
 
     }
@@ -211,24 +214,17 @@ public class Planet implements IHasResource, Runnable {
      */
     @Override
     public void run() {
-
-            cycling();
-
-            if (cycleCount > 5) {
-                showChart();
-            }
-
+        cycling();
 
     }
 
     /**
      * starts the thread
      */
-    public void start(){
-        if(thread != null){
-            return;
-        }
+    public Thread start() {
+
         thread = new Thread(this);
         thread.start();
+        return thread;
     }
 }
