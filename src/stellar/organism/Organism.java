@@ -85,7 +85,7 @@ public abstract class Organism implements ICyclable {
             if (starvationThreshold < 500) {
                 starvationThreshold = 0;
             }
-            if (starvationThreshold > 500) {
+            if (starvationThreshold >= 500) {
                 starvationThreshold -= starvationThresholdIncrease;
             }
         } catch (Exception ex) {
