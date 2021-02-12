@@ -71,18 +71,20 @@ public abstract class Resource implements IResourceAddable, IResourceConsumable 
     }
 
     /**
-     * sets new ResourceHandler object
-     * @param resourceHandler which shall bet set
-     */
-    public void setResourceHandler(ResourceHandler resourceHandler) {
-        this.resourceHandler = resourceHandler;
-    }
-
-    /**
      * returns ResourceHandler object of respective Resource object
+     *
      * @return resourceHandler object
      */
     public ResourceHandler getResourceHandler() {
         return this.resourceHandler;
+    }
+
+    /**
+     * sets new ResourceHandler object
+     *
+     * @param resourceHandler which shall bet set
+     */
+    public void setResourceHandler(ResourceHandler resourceHandler) {
+        this.resourceHandler = resourceHandler;
     }
 }
