@@ -52,7 +52,7 @@ public class PlanetTest {
 
         Integer originWildLifeCount = testPlanet.getNumberOfLivingOrganism();
         testPlanet.lifeKilled(testOrganism);
-      //  testPlanet.cycling();
+        testPlanet.cycling();
         Integer newWildLifeCount = testPlanet.getNumberOfLivingOrganism();
         assertEquals(originWildLifeCount - 1, newWildLifeCount, "fail - wrong count");
     }

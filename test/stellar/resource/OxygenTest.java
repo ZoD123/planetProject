@@ -2,41 +2,31 @@ package stellar.resource;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import stellar.resource.Oxygen;
+import stellar.resource.Resource;
+import stellar.resource.ResourceHandler;
 
 import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ResourceTest {
+class OxygenTest extends ResourceTest {
 
-    public Resource resourceField;
 
-    public Integer initAmount = 1000;
 
     @BeforeEach
     void setUp() {
-        resourceField = new Carbon(initAmount);
+        resourceField = new Oxygen(initAmount);
     }
 
     @Test
     void getStockTest() {
-        Integer receivedAmountResource = resourceField.getStock();
-        assertEquals(initAmount, receivedAmountResource);
+        super.getStockTest();
     }
 
     @Test
     void consumeTest() {
-        try {
-            Integer amountConsumed = 300;
-            Integer receivedAmountResource = resourceField.getStock();
-            resourceField.consume(amountConsumed);
-
-            Integer receivedAmountOxygenNew = resourceField.getStock();
-            Integer amountExpected = receivedAmountResource - amountConsumed;
-            assertEquals(amountExpected, receivedAmountOxygenNew);
-        } catch (Exception ex) {
-
-        }
+        super.consumeTest();
     }
 
     @Test
@@ -99,5 +89,4 @@ class ResourceTest {
         assertSame(newResourceHandler, newSetResourceHandler);
         assertNotSame(originResourceHandler, newSetResourceHandler);
     }
-
 }
