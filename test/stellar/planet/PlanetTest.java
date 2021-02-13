@@ -40,6 +40,7 @@ public class PlanetTest {
         initPlanet();
         Integer originWildLifeCount = testPlanet.getNumberOfLivingOrganism();
         testPlanet.lifeReceived(new AnimalCell(testPlanet));
+        testPlanet.cycling();
         Integer newWildLifeCount = testPlanet.getNumberOfLivingOrganism();
         assertEquals(originWildLifeCount + 1, newWildLifeCount, "fail - wrong count");
     }
@@ -48,8 +49,10 @@ public class PlanetTest {
     void lifeKilledTest() {
         initPlanet();
         Organism testOrganism = new AnimalCell(testPlanet);
+        // test initalisation
         testPlanet.lifeReceived(testOrganism);
-
+        testPlanet.cycling();
+        // the test iteself
         Integer originWildLifeCount = testPlanet.getNumberOfLivingOrganism();
         testPlanet.lifeKilled(testOrganism);
         testPlanet.cycling();

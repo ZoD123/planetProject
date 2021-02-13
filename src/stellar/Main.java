@@ -23,7 +23,7 @@ public class Main {
      */
     public static void main(String[] args) {
         Integer cycleCount = 0;
-        Integer maxCycles = 3;
+        Integer maxCycles = 1;
 
         PlanetarySystem planetarySystem = new PlanetarySystem();
 

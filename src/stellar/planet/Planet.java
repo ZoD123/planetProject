@@ -55,8 +55,8 @@ public class Planet implements IHasResource, Runnable {
     /**
      * delivers (if possible) the requested ressource from the planet
      *
-     * @param minAmount //TODO MARCO KOMMENTIEREN
-     * @param type      //TODO MARCO KOMMENTIEREN
+     * @param the type which resource the requester want to have.
+     * @param minAmount the minimal amount the requested resource has to have.
      * @return the requested ressource
      */
     @Override
@@ -96,14 +96,9 @@ public class Planet implements IHasResource, Runnable {
     /**
      * World experience one cycle
      *
-     * @throws DeathWorldException world now is dead :-(
      */
     public void cycling() {
-
-
-        while (cycleCount < maxCycles) {
             cycleCount++;
-            String output;
 
             ResourceDTOConstructor resourceDTOConstructor = new ResourceDTOConstructor();
             resourceDTOConstructor.makeSnapshot(resourcePlotDTO, this);
@@ -115,6 +110,16 @@ public class Planet implements IHasResource, Runnable {
             wildLiveToKillCleanUp();
             wildLiveAddNewLive();
             resourceHandler.cleanUpResourceToAddMap();
+    }
+
+    /**
+     * simulates the planet until the internal maxCycle is reached
+     */
+    public void simulate(){
+
+        while (cycleCount < maxCycles) {
+            cycleCount++;
+            cycling();
 
             if (wildlive.size() < 1) {
 
@@ -126,7 +131,6 @@ public class Planet implements IHasResource, Runnable {
 
         }
         showChart();
-
 
     }
 
@@ -214,7 +218,7 @@ public class Planet implements IHasResource, Runnable {
      */
     @Override
     public void run() {
-        cycling();
+        simulate();
 
     }
 
